@@ -3,19 +3,36 @@ const path = require("path");
 const fs = require("fs");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const session = require('express-session');
+const passport = require('passport');
+dotenv.config();
+
+// Initialize Passport Google Strategy
+require('./src/config/passport');
+
 const routes = require("./src/routes");
 const {
   errorHandler,
   notFoundHandler,
 } = require("./src/middleware/errorHandler");
 
-dotenv.config();
-
 const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+
+// Configure session middleware
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'your-session-secret-key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // Set to true in production with HTTPS
+}));
+
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // ✅ Determine correct uploads directory
 const localUploadDir = path.join(__dirname, "public/uploads");
@@ -38,6 +55,10 @@ app.use("/uploads", express.static(finalUploadDir));
 
 // ✅ Serve React build (after uploads)
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+// ✅ Sitemap Route
+const sitemapController = require('./src/controllers/sitemapController');
+app.get('/sitemap.xml', sitemapController.generateSitemap);
 
 // ✅ API routes
 app.use("/api", routes);

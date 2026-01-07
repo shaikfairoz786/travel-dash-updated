@@ -24,6 +24,9 @@ const AdminSidebar: React.FC = () => {
         <Link to="/admin/packages" className={`block py-2.5 px-4 rounded transition duration-200 ${isActive('/admin/packages')}`}>
           Packages
         </Link>
+        <Link to="/admin/blogs" className={`block py-2.5 px-4 rounded transition duration-200 ${isActive('/admin/blogs')}`}>
+          Blogs
+        </Link>
         <Link to="/admin/contacts" className={`block py-2.5 px-4 rounded transition duration-200 ${isActive('/admin/contacts')}`}>
           Contacts
         </Link>

@@ -65,7 +65,7 @@ const WhyChooseUs: React.FC = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 relative">
+      <div className="container mx-auto px-4 relative max-w-6xl">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="section-title animate-slide-up">
             Why Choose Travores?

@@ -1,64 +1,97 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
 const GlobalNavbar: React.FC = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  const isHome = location.pathname === '/';
+
+  // Handle scroll effect for transparent navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleLogout = () => {
     logout();
     navigate('/');
+    setIsMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleLinkClick = () => {
+    setIsMenuOpen(false);
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  };
+
+  // Dynamic Styles
+  const navClasses = isHome && !scrolled
+    ? 'fixed top-0 w-full z-50 bg-gradient-to-b from-black/70 to-transparent transition-all duration-300 py-6'
+    : 'sticky top-0 w-full z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-secondary-100 transition-all duration-300 py-3';
+
+  const linkBaseClasses = "font-medium relative group transition-all duration-300";
+  const linkColorClasses = isHome && !scrolled
+    ? 'text-white/90 hover:text-white drop-shadow-sm'
+    : 'text-secondary-700 hover:text-primary-600';
+
+  const logoTextClasses = isHome && !scrolled
+    ? 'text-white drop-shadow-md'
+    : 'bg-gradient-primary bg-clip-text text-transparent';
+
   return (
-    <nav className="bg-white shadow-soft border-b border-secondary-200 sticky top-0 z-50 animate-fade-in">
+    <nav className={navClasses}>
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center py-4">
-          <Link to="/" className="flex items-center space-x-3 text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:scale-105 transition-transform duration-300">
-            <img src="https://iili.io/KyD9NzF.png" alt="Travores Logo" className="h-14 w-14 rounded-full object-cover" />
+        <div className="flex justify-between items-center">
+          <Link to="/" className={`flex items-center space-x-3 text-2xl md:text-3xl font-bold hover:scale-105 transition-transform duration-300 ${logoTextClasses}`}>
+            <img src="https://iili.io/KyD9NzF.png" alt="Travores Logo" className="h-10 w-10 md:h-12 md:w-12 rounded-full object-cover border-2 border-white/20" />
             <span>Travores</span>
           </Link>
 
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-secondary-700 hover:text-primary-600 transition-all duration-300 font-medium relative group">
+            <Link to="/" className={`${linkBaseClasses} ${linkColorClasses}`}>
               Home
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary transition-all duration-300 group-hover:w-full"></span>
+              <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${isHome && !scrolled ? 'bg-white' : 'bg-gradient-primary'}`}></span>
             </Link>
-            <Link to="/about-us" className="text-secondary-700 hover:text-primary-600 transition-all duration-300 font-medium relative group">
+            <Link to="/plan-my-trip" className={`${linkBaseClasses} ${isHome && !scrolled ? 'text-white hover:text-primary-200' : 'text-travores-green hover:text-travores-brown'} font-bold`}>
+              Plan My Trip
+            </Link>
+            <Link to="/blogs" className={`${linkBaseClasses} ${linkColorClasses}`}>
+              Stories
+              <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${isHome && !scrolled ? 'bg-white' : 'bg-gradient-primary'}`}></span>
+            </Link>
+            <Link to="/about-us" className={`${linkBaseClasses} ${linkColorClasses}`}>
               About Us
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary transition-all duration-300 group-hover:w-full"></span>
+              <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${isHome && !scrolled ? 'bg-white' : 'bg-gradient-primary'}`}></span>
             </Link>
-            <Link to="/contact" className="text-secondary-700 hover:text-primary-600 transition-all duration-300 font-medium relative group">
+            <Link to="/contact" className={`${linkBaseClasses} ${linkColorClasses}`}>
               Contact
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary transition-all duration-300 group-hover:w-full"></span>
+              <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${isHome && !scrolled ? 'bg-white' : 'bg-gradient-primary'}`}></span>
             </Link>
+
             {user ? (
               <>
                 {user.role === 'admin' && (
-                  <Link to="/admin/dashboard" className="text-secondary-700 hover:text-primary-600 transition-all duration-300 font-medium relative group">
-                    Admin Dashboard
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary transition-all duration-300 group-hover:w-full"></span>
+                  <Link to="/admin/dashboard" className={`${linkBaseClasses} ${linkColorClasses}`}>
+                    Dashboard
                   </Link>
                 )}
-                {user.role === 'customer' && (
-                  <>
-                    <Link to="/my-bookings" className="text-secondary-700 hover:text-primary-600 transition-all duration-300 font-medium relative group">
-                      My Bookings
-                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary transition-all duration-300 group-hover:w-full"></span>
-                    </Link>
-                    <Link to="/my-reviews" className="text-secondary-700 hover:text-primary-600 transition-all duration-300 font-medium relative group">
-                      My Reviews
-                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary transition-all duration-300 group-hover:w-full"></span>
-                    </Link>
-                  </>
-                )}
                 <div className="flex items-center space-x-4">
-                  <span className="text-secondary-700 font-medium">Welcome, {user.name}</span>
+                  <span className={`font-medium ${isHome && !scrolled ? 'text-white/90' : 'text-secondary-700'}`}>
+                    Hi, {user.name.split(' ')[0]}
+                  </span>
                   <button
                     onClick={handleLogout}
-                    className="btn-secondary text-sm px-4 py-2"
+                    className={isHome && !scrolled ? 'btn-secondary bg-white/10 text-white border-white/30 hover:bg-white/20' : 'btn-secondary text-sm px-4 py-2'}
                   >
                     Logout
                   </button>
@@ -66,11 +99,10 @@ const GlobalNavbar: React.FC = () => {
               </>
             ) : (
               <>
-                <Link to="/login" className="text-secondary-700 hover:text-primary-600 transition-all duration-300 font-medium relative group">
+                <Link to="/login" className={`${linkBaseClasses} ${linkColorClasses}`}>
                   Login
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary transition-all duration-300 group-hover:w-full"></span>
                 </Link>
-                <Link to="/register" className="btn-primary text-sm px-4 py-2">
+                <Link to="/register" className={isHome && !scrolled ? 'px-6 py-2 rounded-full bg-white text-primary-900 font-bold hover:bg-gray-100 transition-colors' : 'btn-primary text-sm px-6 py-2 rounded-full'}>
                   Register
                 </Link>
               </>
@@ -80,10 +112,10 @@ const GlobalNavbar: React.FC = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-secondary-700 hover:text-primary-600 focus:outline-none focus:text-primary-600 transition-colors duration-300 p-2"
+              className={`${isHome && !scrolled ? 'text-white' : 'text-secondary-700'} hover:scale-110 transition-transform p-2`}
               aria-label="Toggle menu"
             >
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {isMenuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                 ) : (
@@ -94,54 +126,39 @@ const GlobalNavbar: React.FC = () => {
           </div>
         </div>
 
+        {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden animate-slide-up">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gradient-light rounded-lg mt-2 border border-secondary-200">
-              <Link to="/" className="block px-3 py-3 text-secondary-700 hover:text-primary-600 hover:bg-white transition-all duration-300 rounded-md font-medium">
+          <div className="md:hidden animate-slide-up mt-4">
+            <div className={`px-4 pt-4 pb-6 space-y-2 rounded-2xl border ${isHome && !scrolled ? 'bg-white/10 backdrop-blur-xl border-white/20' : 'bg-white border-secondary-100 shadow-xl'}`}>
+              <Link to="/" onClick={handleLinkClick} className={`block px-4 py-3 rounded-lg font-medium transition-colors ${isHome && !scrolled ? 'text-white hover:bg-white/10' : 'text-secondary-700 hover:bg-secondary-50'}`}>
                 Home
               </Link>
-              <Link to="/about-us" className="block px-3 py-3 text-secondary-700 hover:text-primary-600 hover:bg-white transition-all duration-300 rounded-md font-medium">
+              <Link to="/plan-my-trip" onClick={handleLinkClick} className={`block px-4 py-3 rounded-lg font-bold transition-colors ${isHome && !scrolled ? 'text-green-300 hover:bg-white/10' : 'text-travores-green hover:bg-secondary-50'}`}>
+                Plan My Trip
+              </Link>
+              <Link to="/blogs" onClick={handleLinkClick} className={`block px-4 py-3 rounded-lg font-medium transition-colors ${isHome && !scrolled ? 'text-white hover:bg-white/10' : 'text-secondary-700 hover:bg-secondary-50'}`}>
+                Stories
+              </Link>
+              <Link to="/about-us" onClick={handleLinkClick} className={`block px-4 py-3 rounded-lg font-medium transition-colors ${isHome && !scrolled ? 'text-white hover:bg-white/10' : 'text-secondary-700 hover:bg-secondary-50'}`}>
                 About Us
               </Link>
-              <Link to="/contact" className="block px-3 py-3 text-secondary-700 hover:text-primary-600 hover:bg-white transition-all duration-300 rounded-md font-medium">
-                Contact
-              </Link>
-              {user ? (
-                <>
-                  {user.role === 'admin' && (
-                    <Link to="/admin/dashboard" className="block px-3 py-3 text-secondary-700 hover:text-primary-600 hover:bg-white transition-all duration-300 rounded-md font-medium">
-                      Admin Dashboard
-                    </Link>
-                  )}
-                  {user.role === 'customer' && (
-                    <>
-                      <Link to="/my-bookings" className="block px-3 py-3 text-secondary-700 hover:text-primary-600 hover:bg-white transition-all duration-300 rounded-md font-medium">
-                        My Bookings
-                      </Link>
-                      <Link to="/my-reviews" className="block px-3 py-3 text-secondary-700 hover:text-primary-600 hover:bg-white transition-all duration-300 rounded-md font-medium">
-                        My Reviews
-                      </Link>
-                    </>
-                  )}
-                  <div className="px-3 py-3 text-secondary-700 font-medium border-t border-secondary-200 mt-2 pt-3">
-                    Welcome, {user.name}
-                  </div>
-                  <button
-                    onClick={handleLogout}
-                    className="block w-full text-left px-3 py-3 text-secondary-700 hover:text-primary-600 hover:bg-white transition-all duration-300 rounded-md font-medium"
-                  >
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link to="/login" className="block px-3 py-3 text-secondary-700 hover:text-primary-600 hover:bg-white transition-all duration-300 rounded-md font-medium">
+
+              {!user ? (
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                  <Link to="/login" onClick={handleLinkClick} className={`text-center py-3 rounded-lg font-semibold ${isHome && !scrolled ? 'text-white border border-white/30' : 'text-secondary-700 border border-secondary-200'}`}>
                     Login
                   </Link>
-                  <Link to="/register" className="block px-3 py-3 text-center bg-gradient-primary text-white hover:shadow-medium transition-all duration-300 rounded-md font-medium">
+                  <Link to="/register" onClick={handleLinkClick} className="text-center py-3 rounded-lg font-bold bg-primary-600 text-white">
                     Register
                   </Link>
-                </>
+                </div>
+              ) : (
+                <button
+                  onClick={handleLogout}
+                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors ${isHome && !scrolled ? 'text-red-300 hover:bg-white/10' : 'text-red-600 hover:bg-red-50'}`}
+                >
+                  Logout
+                </button>
               )}
             </div>
           </div>

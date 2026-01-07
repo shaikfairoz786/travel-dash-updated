@@ -1,4 +1,4 @@
- import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
 import useAuth from '../../hooks/useAuth';
 import { API_BASE_URL } from "../../config/api";
@@ -32,7 +32,7 @@ interface TopPackageData {
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28DFF', '#FF6F61', '#6B5B95', '#88B04B'];
 
 const AdminDashboardPage: React.FC = () => {
-  const { session, user } = useAuth();
+  const { session, user, logout } = useAuth();
   const [overview, setOverview] = useState<MetricsOverview | null>(null);
   const [trends, setTrends] = useState<{ bookingsPerMonth: BookingTrendData[]; revenueTrend: RevenueTrendData[]; topPackages: TopPackageData[] } | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -69,6 +69,20 @@ const AdminDashboardPage: React.FC = () => {
         console.log('overviewResponse:', overviewResponse);
         console.log('trendsResponse:', trendsResponse);
 
+        if (overviewResponse.status === 401 || trendsResponse.status === 401) {
+          setError('Session expired, please login again');
+          logout();
+          setLoading(false);
+          return;
+        }
+
+        if (overviewResponse.status === 403 || trendsResponse.status === 403) {
+          setError('Access denied: Admin permissions required');
+          logout();
+          setLoading(false);
+          return;
+        }
+
         if (!overviewResponse.ok || !trendsResponse.ok) {
           throw new Error(`HTTP error! status: ${overviewResponse.status} ${trendsResponse.status}`);
         }
@@ -92,7 +106,7 @@ const AdminDashboardPage: React.FC = () => {
     if (user || session) {
       fetchMetrics();
     }
-  }, [user, session]);
+  }, [user, session, logout]);
 
   console.log('Render state:', { loading, error, overview, trends });
 

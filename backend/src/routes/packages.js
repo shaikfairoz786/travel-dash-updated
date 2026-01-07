@@ -16,8 +16,17 @@ router.get('/admin/:id',
 );
 
 router.post('/',
-  authenticateToken, authorizeRoles('admin'),
-  uploadImages,
+  authenticateToken, 
+  authorizeRoles('admin'),
+  (req, res, next) => {
+    uploadImages(req, res, (err) => {
+      if (err) {
+        console.error('Multer error:', err);
+        return res.status(400).json({ error: err.message || 'File upload error' });
+      }
+      next();
+    });
+  },
   packageController.createPackage
 );
 

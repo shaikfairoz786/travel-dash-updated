@@ -12,7 +12,7 @@ model User {
   name         String
   email        String   @unique
   phone        String?
-  passwordHash String
+  passwordHash String?
   role         String   @default("customer")
   createdAt    DateTime @default(now())
   refreshToken String?
@@ -80,6 +80,7 @@ model Review {
   @@map("reviews")
 }
 
+
 model Contact {
   id        String   @id @default(uuid())
   name      String
@@ -90,4 +91,18 @@ model Contact {
   createdAt DateTime @default(now())
 
   @@map("contacts")
+}
+
+model Blog {
+  id        String   @id @default(uuid())
+  title     String
+  slug      String   @unique
+  content   String   // Stores HTML content
+  image     String?
+  author    String   @default("Travores Team")
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("blogs")
 }

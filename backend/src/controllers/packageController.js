@@ -202,11 +202,54 @@ const createPackage = async (req, res, next) => {
     jsonFields.forEach(field => {
       if (parsedBody[field]) {
         try {
-          parsedBody[field] = JSON.parse(parsedBody[field]);
+          const parsed = JSON.parse(parsedBody[field]);
+          // Only set if parsed value is an array
+          if (Array.isArray(parsed)) {
+            parsedBody[field] = parsed;
+          } else {
+            parsedBody[field] = [];
+          }
         } catch (e) {
           console.log(`Failed to parse ${field}:`, parsedBody[field]);
           parsedBody[field] = [];
         }
+      } else {
+        // Set empty array if field is not provided
+        parsedBody[field] = [];
+      }
+    });
+
+    // Convert string values to proper types (FormData sends everything as strings)
+    if (parsedBody.price !== undefined && parsedBody.price !== null && parsedBody.price !== '') {
+      const priceNum = typeof parsedBody.price === 'string' ? parseFloat(parsedBody.price) : parsedBody.price;
+      if (isNaN(priceNum) || priceNum <= 0) {
+        return res.status(400).json({ error: 'Price must be a positive number' });
+      }
+      parsedBody.price = priceNum;
+    }
+    
+    if (parsedBody.maxGroupSize !== undefined && parsedBody.maxGroupSize !== null && parsedBody.maxGroupSize !== '') {
+      const groupSizeNum = typeof parsedBody.maxGroupSize === 'string' ? parseInt(parsedBody.maxGroupSize, 10) : parsedBody.maxGroupSize;
+      if (isNaN(groupSizeNum) || groupSizeNum <= 0) {
+        return res.status(400).json({ error: 'Max group size must be a positive integer' });
+      }
+      parsedBody.maxGroupSize = groupSizeNum;
+    }
+    
+    if (parsedBody.active !== undefined && parsedBody.active !== null) {
+      // Handle boolean conversion from string
+      if (typeof parsedBody.active === 'string') {
+        parsedBody.active = parsedBody.active === 'true' || parsedBody.active === '1';
+      }
+      parsedBody.active = Boolean(parsedBody.active);
+    } else {
+      parsedBody.active = true; // Default to true
+    }
+
+    // Remove empty string fields to avoid validation issues
+    Object.keys(parsedBody).forEach(key => {
+      if (parsedBody[key] === '' && !['shortDesc', 'overview', 'duration', 'location'].includes(key)) {
+        delete parsedBody[key];
       }
     });
 
@@ -218,27 +261,45 @@ const createPackage = async (req, res, next) => {
     }
 
     console.log('Validated data:', JSON.stringify(value, null, 2));
+    console.log('req.files:', req.files);
 
     // Handle uploaded images
     const images = [];
 
     // Add main image if uploaded
-    if (req.files && req.files.mainImage && req.files.mainImage[0]) {
+    if (req.files && req.files.mainImage && Array.isArray(req.files.mainImage) && req.files.mainImage.length > 0) {
       images.push(`/uploads/${req.files.mainImage[0].filename}`);
     }
 
     // Add gallery images if uploaded
-    if (req.files && req.files.galleryImages) {
+    if (req.files && req.files.galleryImages && Array.isArray(req.files.galleryImages)) {
       req.files.galleryImages.forEach(file => {
-        images.push(`/uploads/${file.filename}`);
+        if (file && file.filename) {
+          images.push(`/uploads/${file.filename}`);
+        }
       });
     }
 
     const packageData = {
       ...value,
-      images: images,
+      images: images.length > 0 ? images : null,
       createdBy: req.user.id,
     };
+
+    console.log('Package data to be created:', JSON.stringify(packageData, null, 2));
+    console.log('User ID:', req.user.id);
+
+    // Validate required fields before Prisma create
+    if (!packageData.title || !packageData.slug || !packageData.price) {
+      return res.status(400).json({ 
+        error: 'Missing required fields',
+        missing: {
+          title: !packageData.title,
+          slug: !packageData.slug,
+          price: !packageData.price
+        }
+      });
+    }
 
     const pkg = await prisma.package.create({
       data: packageData,
@@ -254,8 +315,33 @@ const createPackage = async (req, res, next) => {
       package: pkg,
     });
   } catch (error) {
-    console.log('Error in createPackage:', error);
-    next(error);
+    console.error('Error in createPackage:', error);
+    console.error('Error name:', error.name);
+    console.error('Error message:', error.message);
+    console.error('Error stack:', error.stack);
+    console.error('Error code:', error.code);
+    
+    // Return more detailed error information
+    if (error.code === 'P2002') {
+      return res.status(409).json({ 
+        error: 'Package with this slug already exists',
+        details: error.meta 
+      });
+    }
+    
+    if (error.code && error.code.startsWith('P')) {
+      return res.status(400).json({ 
+        error: 'Database error',
+        message: error.message,
+        code: error.code
+      });
+    }
+    
+    res.status(500).json({ 
+      error: 'Failed to create package',
+      message: error.message || 'Internal server error',
+      ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
+    });
   }
 };
 

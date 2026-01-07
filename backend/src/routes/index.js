@@ -8,6 +8,7 @@ const bookingRoutes = require('./bookings');
 const reviewRoutes = require('./reviews');
 const adminRoutes = require('./admin');
 const contactRoutes = require('./contacts');
+const blogRoutes = require('./blogs');
 
 // Mount routes with API versioning
 router.use('/auth', authRoutes);
@@ -16,6 +17,7 @@ router.use('/bookings', bookingRoutes);
 router.use('/reviews', reviewRoutes); // Standalone reviews endpoint for user reviews
 router.use('/admin', adminRoutes);
 router.use('/contacts', contactRoutes);
+router.use('/blogs', blogRoutes);
 
 // Mount reviews as nested routes under packages
 router.use('/packages/:packageId/reviews', reviewRoutes);

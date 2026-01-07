@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { jsPDF } from "jspdf";
+import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 import BookingModal from "../components/BookingModal";
 import useAuth from "../hooks/useAuth";
 import { API_BASE_URL } from "../config/api";
@@ -41,10 +43,15 @@ const PackageDetailsPage: React.FC = () => {
   const { session } = useAuth();
   const accessToken = session?.access_token;
 
+  /* Core Page State */
   const [packageData, setPackageData] = useState<Package | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+
+  /* State for Slider */
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
 
   // ✅ Unified Image Resolver
   const getImageUrl = (url?: string): string => {
@@ -56,6 +63,15 @@ const PackageDetailsPage: React.FC = () => {
 
     return `${cleanBase}/${cleanUrl}`;
   };
+
+  // Prepare all images array
+  const allImages = React.useMemo(() => {
+    if (!packageData) return [];
+    const imgs: string[] = [];
+    if (packageData.images?.main) imgs.push(packageData.images.main);
+    if (packageData.images?.gallery) imgs.push(...packageData.images.gallery);
+    return imgs.length > 0 ? imgs : [placeholder];
+  }, [packageData]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -77,7 +93,182 @@ const PackageDetailsPage: React.FC = () => {
     fetchPackage();
   }, [slug]);
 
+  // Auto-Slide Effect
+  useEffect(() => {
+    if (allImages.length <= 1 || isHovering) return;
+
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [allImages.length, isHovering]);
+
+  const nextImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
+  };
+
+  const prevImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setCurrentImageIndex((prev) => (prev === 0 ? allImages.length - 1 : prev - 1));
+  };
+
+  // SEO: Update Page Title
+  useEffect(() => {
+    if (packageData) {
+      document.title = `${packageData.title} | Travores Packages`;
+    }
+  }, [packageData]);
+
   const handleBookingSuccess = () => setIsBookingModalOpen(false);
+
+  const downloadItineraryPDF = () => {
+    if (!packageData) return;
+
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 20;
+    let yPosition = margin;
+
+    // Helper function to add new page if needed
+    const checkPageBreak = (requiredSpace: number) => {
+      if (yPosition + requiredSpace > pageHeight - margin) {
+        doc.addPage();
+        yPosition = margin;
+      }
+    };
+
+    // Title
+    doc.setFontSize(22);
+    doc.setFont("helvetica", "bold");
+    doc.text(packageData.title, margin, yPosition);
+    yPosition += 15;
+
+    // Package Info
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    if (packageData.shortDesc) {
+      doc.text(packageData.shortDesc, margin, yPosition, { maxWidth: pageWidth - 2 * margin });
+      yPosition += doc.getTextDimensions(packageData.shortDesc, { maxWidth: pageWidth - 2 * margin }).h + 10;
+    }
+
+    // Price
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text(`Price: ${packageData.currency} ${packageData.price.toFixed(2)}`, margin, yPosition);
+    yPosition += 15;
+
+    // Overview
+    if (packageData.overview) {
+      checkPageBreak(30);
+      doc.setFontSize(16);
+      doc.setFont("helvetica", "bold");
+      doc.text("Overview", margin, yPosition);
+      yPosition += 10;
+
+      doc.setFontSize(11);
+      doc.setFont("helvetica", "normal");
+      const overviewLines = doc.splitTextToSize(packageData.overview, pageWidth - 2 * margin);
+      doc.text(overviewLines, margin, yPosition);
+      yPosition += overviewLines.length * 6 + 10;
+    }
+
+    // Itinerary
+    let itineraryArray: string[] = [];
+    if (packageData.itinerary) {
+      if (Array.isArray(packageData.itinerary)) {
+        itineraryArray = packageData.itinerary;
+      } else if (typeof packageData.itinerary === 'object') {
+        // Handle JSON object format
+        const itineraryObj = packageData.itinerary as Record<string, unknown>;
+        if (itineraryObj.days && Array.isArray(itineraryObj.days)) {
+          itineraryArray = itineraryObj.days.map((day: unknown) =>
+            typeof day === 'string' ? day : `${(day as Record<string, unknown>).title || ''}: ${(day as Record<string, unknown>).description || ''}`
+          );
+        } else if (itineraryObj.items && Array.isArray(itineraryObj.items)) {
+          itineraryArray = itineraryObj.items as string[];
+        }
+      }
+    }
+
+    if (itineraryArray.length > 0) {
+      checkPageBreak(30);
+      doc.setFontSize(16);
+      doc.setFont("helvetica", "bold");
+      doc.text("Itinerary", margin, yPosition);
+      yPosition += 10;
+
+      doc.setFontSize(11);
+      doc.setFont("helvetica", "normal");
+      itineraryArray.forEach((day, index) => {
+        if (!day || day.trim() === '') return;
+        checkPageBreak(20);
+        doc.setFont("helvetica", "bold");
+        doc.text(`Day ${index + 1}:`, margin, yPosition);
+        yPosition += 7;
+
+        doc.setFont("helvetica", "normal");
+        const dayLines = doc.splitTextToSize(String(day), pageWidth - 2 * margin - 10);
+        doc.text(dayLines, margin + 5, yPosition);
+        yPosition += dayLines.length * 5 + 8;
+      });
+    }
+
+    // Inclusions
+    if (packageData.inclusions && Array.isArray(packageData.inclusions) && packageData.inclusions.length > 0) {
+      checkPageBreak(30);
+      doc.setFontSize(16);
+      doc.setFont("helvetica", "bold");
+      doc.text("What's Included", margin, yPosition);
+      yPosition += 10;
+
+      doc.setFontSize(11);
+      doc.setFont("helvetica", "normal");
+      packageData.inclusions.forEach((item) => {
+        checkPageBreak(10);
+        doc.text(`• ${item}`, margin + 5, yPosition);
+        yPosition += 7;
+      });
+      yPosition += 5;
+    }
+
+    // Exclusions
+    if (packageData.exclusions && Array.isArray(packageData.exclusions) && packageData.exclusions.length > 0) {
+      checkPageBreak(30);
+      doc.setFontSize(16);
+      doc.setFont("helvetica", "bold");
+      doc.text("What's Excluded", margin, yPosition);
+      yPosition += 10;
+
+      doc.setFontSize(11);
+      doc.setFont("helvetica", "normal");
+      packageData.exclusions.forEach((item) => {
+        checkPageBreak(10);
+        doc.text(`• ${item}`, margin + 5, yPosition);
+        yPosition += 7;
+      });
+    }
+
+    // Footer
+    const totalPages = doc.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "italic");
+      doc.text(
+        `Page ${i} of ${totalPages}`,
+        pageWidth - margin,
+        pageHeight - 10,
+        { align: "right" }
+      );
+    }
+
+    // Save the PDF
+    const fileName = `${packageData.title.replace(/[^a-z0-9]/gi, "_")}_Itinerary.pdf`;
+    doc.save(fileName);
+  };
 
   if (loading) {
     return (
@@ -118,57 +309,86 @@ const PackageDetailsPage: React.FC = () => {
               {packageData.title}
             </h1>
 
-            {/* ===== Main Image ===== */}
-            <div className="relative">
-              <img
-                src={getImageUrl(packageData.images?.main)}
-                alt={packageData.title}
-                className="w-full h-96 object-cover rounded-xl mb-6"
-                onError={(e) => {
-                  const target = e.currentTarget as HTMLImageElement;
-                  if (!target.dataset.fallback) {
-                    target.src = placeholder;
-                    target.dataset.fallback = "true";
-                  }
-                }}
-              />
-              {packageData.averageRating && (
-                <div className="absolute bottom-4 left-4 bg-white bg-opacity-90 px-3 py-2 rounded-full flex items-center shadow-md">
-                  <svg
-                    className="w-5 h-5 text-yellow-400 mr-1"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <span className="text-sm font-semibold text-gray-900">
-                    {packageData.averageRating.toFixed(1)} (
-                    {packageData.reviewCount || 0})
-                  </span>
-                </div>
-              )}
-            </div>
+            {/* ===== Premium Auto-Slider Gallery ===== */}
+            <div
+              className="mb-8 select-none"
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => setIsHovering(false)}
+            >
+              {/* Main Slider Window */}
+              <div className="relative h-[34rem] w-full rounded-2xl overflow-hidden shadow-2xl mb-6 bg-secondary-900 group">
 
-            {/* ===== Gallery ===== */}
-            {packageData.images?.gallery?.length ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                {packageData.images.gallery.map((image, index) => (
-                  <img
-                    key={index}
-                    src={getImageUrl(image)}
-                    alt={`${packageData.title} ${index + 1}`}
-                    className="w-full h-48 object-cover rounded-lg shadow-sm hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      const target = e.currentTarget as HTMLImageElement;
-                      if (!target.dataset.fallback) {
-                        target.src = placeholder;
-                        target.dataset.fallback = "true";
-                      }
-                    }}
-                  />
-                ))}
+                {/* Sliding Track */}
+                <div
+                  className="flex h-full transition-transform duration-700 ease-out"
+                  style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}
+                >
+                  {allImages.map((img, idx) => (
+                    <div key={idx} className="w-full h-full flex-shrink-0 relative">
+                      <img
+                        src={getImageUrl(img)}
+                        alt={`${packageData.title} view ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = placeholder;
+                        }}
+                      />
+                      {/* Dark Gradient for Text/Controls visibility */}
+                      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Progress Bar (Visible when auto-sliding) */}
+                {!isHovering && allImages.length > 1 && (
+                  <div className="absolute bottom-0 left-0 h-1 bg-primary-500 z-20 transition-all duration-3000 ease-linear w-full animate-progress-bar origin-left"></div>
+                )}
+                {/* Static Bar Background */}
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-white/20 z-10"></div>
+
+                {/* Navigation Arrows (Glassmorphism) */}
+                <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                  <button
+                    onClick={prevImage}
+                    className="pointer-events-auto bg-black/30 hover:bg-black/50 backdrop-blur-md p-3 rounded-full text-white transition-all transform hover:scale-110 border border-white/10"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={nextImage}
+                    className="pointer-events-auto bg-black/30 hover:bg-black/50 backdrop-blur-md p-3 rounded-full text-white transition-all transform hover:scale-110 border border-white/10"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Image Counter Badge */}
+                <div className="absolute bottom-6 left-6 px-3 py-1 rounded-lg bg-black/50 backdrop-blur-md border border-white/10 text-white text-xs font-medium tracking-wider">
+                  {currentImageIndex + 1} / {allImages.length}
+                </div>
+
+                {/* Rating Badge Overlay */}
+                {packageData.averageRating && (
+                  <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-md px-4 py-2 rounded-xl flex items-center shadow-lg shadow-black/5 border border-white/50 z-10">
+                    <svg className="w-5 h-5 text-yellow-400 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                    <div className="flex flex-col leading-none">
+                      <span className="text-sm font-bold text-gray-900">{packageData.averageRating.toFixed(1)}</span>
+                      {packageData.reviewCount ? (
+                        <span className="text-[10px] text-gray-500 font-medium tracking-wide">{packageData.reviewCount} Reviews</span>
+                      ) : null}
+                    </div>
+                  </div>
+                )}
               </div>
-            ) : null}
+
+
+            </div>
 
             {/* ===== Overview ===== */}
             {packageData.overview && (
@@ -182,6 +402,16 @@ const PackageDetailsPage: React.FC = () => {
             {/* ===== Itinerary ===== */}
             {packageData.itinerary && (
               <Section title="Itinerary">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-gray-600">Download the complete itinerary as PDF</span>
+                  <button
+                    onClick={downloadItineraryPDF}
+                    className="flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors duration-300 font-semibold"
+                  >
+                    <ArrowDownTrayIcon className="h-5 w-5" />
+                    Download Itinerary
+                  </button>
+                </div>
                 {Array.isArray(packageData.itinerary) ? (
                   <div className="space-y-4">
                     {packageData.itinerary.map((day, index) => (
@@ -229,9 +459,8 @@ const PackageDetailsPage: React.FC = () => {
                           {[...Array(5)].map((_, i) => (
                             <svg
                               key={i}
-                              className={`w-5 h-5 ${
-                                i < review.rating ? "text-yellow-400" : "text-gray-300"
-                              }`}
+                              className={`w-5 h-5 ${i < review.rating ? "text-yellow-400" : "text-gray-300"
+                                }`}
                               fill="currentColor"
                               viewBox="0 0 20 20"
                             >
@@ -263,6 +492,18 @@ const PackageDetailsPage: React.FC = () => {
               <div className="text-3xl font-bold text-primary-600 mb-6">
                 {packageData.currency} {packageData.price.toFixed(2)}
               </div>
+
+              {/* Download Itinerary Button */}
+              {packageData.itinerary && (
+                <button
+                  onClick={downloadItineraryPDF}
+                  className="w-full flex items-center justify-center gap-2 bg-white border-2 border-primary-600 text-primary-600 py-3 px-6 rounded-lg hover:bg-primary-50 transition-colors duration-300 font-semibold mb-4"
+                >
+                  <ArrowDownTrayIcon className="h-5 w-5" />
+                  Download Itinerary
+                </button>
+              )}
+
               {accessToken ? (
                 <button
                   onClick={() => setIsBookingModalOpen(true)}
@@ -323,9 +564,8 @@ const List: React.FC<{ items: string[]; color: "green" | "red" }> = ({
     {items.map((item, index) => (
       <li key={index} className="flex items-center">
         <svg
-          className={`w-5 h-5 mr-3 ${
-            color === "green" ? "text-green-500" : "text-red-500"
-          }`}
+          className={`w-5 h-5 mr-3 ${color === "green" ? "text-green-500" : "text-red-500"
+            }`}
           fill="currentColor"
           viewBox="0 0 20 20"
         >

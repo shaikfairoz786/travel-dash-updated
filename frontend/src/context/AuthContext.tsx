@@ -6,6 +6,7 @@ interface User {
   id: string;
   name: string;
   email: string;
+  phone?: string;
   role: 'customer' | 'admin';
 }
 
@@ -13,10 +14,12 @@ interface AuthContextType {
   user: User | null;
   session: { access_token: string } | null;
   login: (email: string, password: string) => Promise<boolean>;
+  loginWithGoogle: () => void;
   register: (name: string, email: string, phone: string, password: string) => Promise<boolean>;
   logout: () => void;
   isAuthenticated: boolean;
   isAdmin: boolean;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -48,19 +51,47 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return storedToken ? { access_token: storedToken } : null;
   });
 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const navigate = useNavigate();
   const isAuthenticated = !!user;
   const isAdmin = user?.role === 'admin';
 
   useEffect(() => {
-    const token = localStorage.getItem(TOKEN_KEY);
-    if (token && user) {
-      fetchUserProfile(token);
-    }
+    const initializeAuth = async () => {
+      const token = localStorage.getItem(TOKEN_KEY);
+      
+      if (token && !user) {
+        // Token exists but user not loaded, fetch user profile
+        await fetchUserProfile(token);
+      } else if (!token) {
+        // No token, user is not authenticated
+        setIsLoading(false);
+      } else {
+        // User already loaded from localStorage, ensure session is set
+        if (token && !session) {
+          setSession({ access_token: token });
+        }
+        setIsLoading(false);
+      }
+
+      // Check for Google login token in URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const googleToken = urlParams.get('token');
+      if (googleToken) {
+        // Remove token from URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        await handleGoogleLoginSuccess(googleToken);
+      }
+    };
+
+    initializeAuth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchUserProfile = async (token: string) => {
     try {
+      setIsLoading(true);
       const response = await fetch(`${API_BASE_URL}/api/auth/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -68,16 +99,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (response.ok) {
         const data = await response.json();
         setUser(data.user);
+        setSession({ access_token: token });
+        setIsLoading(false);
+        return data.user;
       } else {
         localStorage.removeItem(TOKEN_KEY);
         localStorage.removeItem(USER_KEY);
         setUser(null);
+        setSession(null);
+        setIsLoading(false);
+        return null;
       }
     } catch (error) {
       console.error('Error fetching user profile:', error);
       localStorage.removeItem(TOKEN_KEY);
       localStorage.removeItem(USER_KEY);
       setUser(null);
+      setSession(null);
+      setIsLoading(false);
+      return null;
     }
   };
 
@@ -136,6 +176,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const loginWithGoogle = () => {
+    window.location.href = `${API_BASE_URL}/api/auth/google`;
+  };
+
+  const handleGoogleLoginSuccess = async (token: string) => {
+    try {
+      localStorage.setItem(TOKEN_KEY, token);
+      setSession({ access_token: token });
+
+      // Fetch user profile
+      const fetchedUser = await fetchUserProfile(token);
+
+      if (fetchedUser) {
+        // Navigate based on role (skip phone verification)
+        navigate(fetchedUser.role === 'admin' ? '/admin/dashboard' : '/');
+      }
+    } catch (error) {
+      console.error('Google login error', error);
+      alert('An error occurred during Google login.');
+    }
+  };
+
   const logout = async () => {
     try {
       localStorage.removeItem(TOKEN_KEY);
@@ -152,10 +214,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     user,
     session,
     login,
+    loginWithGoogle,
     register,
     logout,
     isAuthenticated,
     isAdmin,
+    isLoading,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

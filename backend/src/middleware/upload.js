@@ -45,6 +45,7 @@ module.exports = {
   uploadImages: upload.fields([
     { name: 'mainImage', maxCount: 1 },
     { name: 'galleryImages', maxCount: 10 },
+    { name: 'image', maxCount: 1 }, // Added for Blog
   ]),
   upload,
 };
