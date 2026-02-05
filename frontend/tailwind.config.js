@@ -105,6 +105,7 @@ export default {
         'gradient-primary': 'linear-gradient(135deg, #22c55e 0%, #15803d 100%)',
         'gradient-accent': 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
         'gradient-light': 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+        'gradient-brand': 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
       },
       boxShadow: {
         'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',

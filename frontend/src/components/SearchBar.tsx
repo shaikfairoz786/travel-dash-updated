@@ -19,37 +19,47 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <form onSubmit={handleSearch} className="bg-white rounded-2xl shadow-large p-2 animate-fade-in">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-          {/* Destination */}
-          <div className="relative">
-            <label htmlFor="destination" className="block text-xs font-semibold text-secondary-700 mb-1">
-              Destination
-            </label>
-            <div className="relative">
-              <MapPinIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-secondary-400" />
+    <div className="w-full max-w-5xl mx-auto">
+      <form onSubmit={handleSearch} className="bg-white rounded-full shadow-2xl p-2 pl-6 animate-fade-in flex flex-col md:flex-row items-center gap-2 md:gap-0 border border-gray-100">
+
+        {/* Destination Field */}
+        <div className="flex-1 w-full relative group">
+          <div className="flex items-center">
+            <div className="p-3 bg-gray-50 rounded-full text-secondary-400 group-focus-within:bg-primary-50 group-focus-within:text-primary-600 transition-colors">
+              <MapPinIcon className="h-6 w-6" />
+            </div>
+            <div className="ml-4 flex-1">
+              <label htmlFor="destination" className="block text-xs font-bold text-secondary-800 uppercase tracking-wider mb-0.5">
+                Location
+              </label>
               <input
                 id="destination"
                 type="text"
-                placeholder="Where to?"
-                className="w-full pl-9 pr-3 py-3 border border-secondary-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300 text-secondary-900 placeholder-secondary-500"
+                placeholder="Where are you going?"
+                className="w-full bg-transparent border-none p-0 text-secondary-900 placeholder-secondary-400 focus:ring-0 font-medium text-lg leading-tight truncate"
                 value={destination}
                 onChange={(e) => setDestination(e.target.value)}
               />
             </div>
           </div>
+        </div>
 
-          {/* Guests */}
-          <div className="relative">
-            <label htmlFor="guests" className="block text-xs font-semibold text-secondary-700 mb-1">
-              Guests
-            </label>
-            <div className="relative">
-              <UsersIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-secondary-400" />
+        {/* Divider */}
+        <div className="hidden md:block w-px h-10 bg-gray-200 mx-4"></div>
+
+        {/* Guests Field */}
+        <div className="flex-1 w-full relative group">
+          <div className="flex items-center">
+            <div className="p-3 bg-gray-50 rounded-full text-secondary-400 group-focus-within:bg-primary-50 group-focus-within:text-primary-600 transition-colors">
+              <UsersIcon className="h-6 w-6" />
+            </div>
+            <div className="ml-4 flex-1">
+              <label htmlFor="guests" className="block text-xs font-bold text-secondary-800 uppercase tracking-wider mb-0.5">
+                Guests
+              </label>
               <select
                 id="guests"
-                className="w-full pl-9 pr-3 py-3 border border-secondary-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300 text-secondary-900 appearance-none bg-white"
+                className="w-full bg-transparent border-none p-0 text-secondary-900 focus:ring-0 font-medium text-lg leading-tight appearance-none cursor-pointer"
                 value={guests}
                 onChange={(e) => setGuests(e.target.value)}
               >
@@ -59,45 +69,34 @@ const SearchBar: React.FC = () => {
                 <option value="4">4 Guests</option>
                 <option value="5">5+ Guests</option>
               </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                <svg className="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
             </div>
           </div>
-
-          {/* Search Button */}
-          <div className="flex items-end">
-            <button
-              type="submit"
-              className="w-full bg-gradient-primary hover:shadow-glow text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 shadow-medium flex items-center justify-center"
-            >
-              <MagnifyingGlassIcon className="h-5 w-5 mr-2" />
-              Search
-            </button>
-          </div>
         </div>
 
-        {/* Quick Search Options */}
-        <div className="mt-4 pt-4 border-t border-secondary-100">
-          <p className="text-sm text-secondary-600 mb-3">Popular destinations:</p>
-          <div className="flex flex-wrap gap-2">
-            {['Bali', 'Paris', 'Tokyo', 'New York', 'Dubai', 'London'].map((city) => (
-              <button
-                key={city}
-                type="button"
-                onClick={() => {
-                  setDestination(city);
-                }}
-                className="px-3 py-1 bg-secondary-100 hover:bg-primary-100 text-secondary-700 hover:text-primary-700 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105"
-              >
-                {city}
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* Search Button */}
+        <button
+          type="submit"
+          className="w-full md:w-auto bg-emerald-600 hover:bg-emerald-700 text-white rounded-full p-4 md:px-8 md:py-4 shadow-lg hover:shadow-glow transition-all duration-300 flex items-center justify-center gap-2 group transform hover:scale-105 ml-2"
+        >
+          <MagnifyingGlassIcon className="h-6 w-6 group-hover:rotate-90 transition-transform duration-300" />
+          <span className="md:hidden">Search</span>
+        </button>
       </form>
+
+      {/* Quick Search Options */}
+      <div className="mt-6 flex flex-wrap justify-center gap-3 animate-fade-in animation-delay-200">
+        <span className="text-white/80 text-sm font-medium py-1">Popular:</span>
+        {['Bali', 'Paris', 'Tokyo', 'Swiss Alps', 'Dubai'].map((city) => (
+          <button
+            key={city}
+            type="button"
+            onClick={() => setDestination(city)}
+            className="px-4 py-1 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white rounded-full text-sm transition-all duration-300 hover:scale-105 hover:border-white/40"
+          >
+            {city}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };

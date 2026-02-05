@@ -53,9 +53,18 @@ interface Package {
   duration?: string;
 }
 
+interface Blog {
+  id: string;
+  title: string;
+  slug: string;
+  image?: string;
+  content?: string;
+  createdAt: string;
+}
+
 const HomePage: React.FC = () => {
   const [packages, setPackages] = useState<Package[]>([]);
-  const [blogs, setBlogs] = useState<any[]>([]);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -251,10 +260,7 @@ const HomePage: React.FC = () => {
           </p>
 
           <div className="max-w-3xl mx-auto transform hover:scale-[1.01] transition-transform duration-300 animate-slide-up animation-delay-400">
-            <div className="bg-white/10 backdrop-blur-xl p-3 rounded-2xl border border-white/30 shadow-2xl relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 to-accent-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <SearchBar />
-            </div>
+            <SearchBar />
           </div>
 
           <div className="mt-16 flex flex-wrap justify-center gap-8 md:gap-16 animate-fade-in animation-delay-600 border-t border-white/10 pt-8 max-w-6xl mx-auto">
