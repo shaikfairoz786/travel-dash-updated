@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import useAuth from '../../hooks/useAuth';
 import { API_BASE_URL } from "../../config/api";
 
 interface Booking {
   id: string;
-  customer: { name: string; email: string };
+  customer: { name: string; email: string; phone?: string | null };
   package: { title: string; slug: string };
   quantity: number;
   totalPrice: number;
@@ -109,29 +110,55 @@ const AdminBookingsPage: React.FC = () => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {bookings.map((booking) => (
-                <tr key={booking.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{booking.id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{booking.customer.name} ({booking.customer.email})</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{booking.package.title}</td>
+                <tr key={booking.id} className="hover:bg-gray-50 flex flex-col sm:table-row mb-4 sm:mb-0 bg-white border-b sm:border-b-0 border-gray-200">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900 break-words max-w-[150px]">
+                    <div className="flex items-center gap-2" title={booking.id}>
+                      <span className="font-mono bg-slate-100 text-slate-700 px-2 py-1 rounded-md text-xs border border-slate-200">
+                        {booking.id.substring(0, 8)}...
+                      </span>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(booking.id);
+                          alert('Booking ID copied to clipboard!');
+                        }}
+                        className="text-slate-400 hover:text-emerald-600 transition-colors"
+                        title="Copy full ID"
+                      >
+                        <DocumentDuplicateIcon className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-700 break-words max-w-[200px]">
+                    {booking.customer.name}
+                    <br />
+                    <span className="text-gray-400 text-xs">{booking.customer.email}</span>
+                    {booking.customer.phone && (
+                      <>
+                        <br />
+                        <span className="text-indigo-500 font-medium text-xs">{booking.customer.phone}</span>
+                      </>
+                    )}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 max-w-[150px] truncate" title={booking.package.title}>{booking.package.title}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{booking.quantity}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${booking.totalPrice.toFixed(2)}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-semibold">${booking.totalPrice.toFixed(2)}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${booking.status === 'approved' ? 'bg-green-100 text-green-800' : booking.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}`}>
                       {booking.status.toUpperCase()}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium w-48">
                     {booking.status === 'pending' && (
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center space-x-2 justify-end">
                         <button
                           onClick={() => handleStatusChange(booking.id, 'approved')}
-                          className="text-indigo-600 hover:text-indigo-900 bg-indigo-100 hover:bg-indigo-200 px-3 py-1 rounded-md transition duration-200"
+                          className="text-emerald-700 hover:text-emerald-900 bg-emerald-100 hover:bg-emerald-200 px-3 py-1.5 rounded-md transition duration-200 font-bold text-xs"
                         >
                           Approve
                         </button>
                         <button
                           onClick={() => handleStatusChange(booking.id, 'cancelled')}
-                          className="text-red-600 hover:text-red-900 bg-red-100 hover:bg-red-200 px-3 py-1 rounded-md transition duration-200"
+                          className="text-red-700 hover:text-red-900 bg-red-100 hover:bg-red-200 px-3 py-1.5 rounded-md transition duration-200 font-bold text-xs"
                         >
                           Cancel
                         </button>

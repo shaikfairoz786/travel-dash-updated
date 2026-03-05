@@ -90,6 +90,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ packageId, packageName, pri
             <input
               type="date"
               id="travelStart"
+              min={new Date().toISOString().split('T')[0]}
               value={travelStart}
               onChange={(e) => setTravelStart(e.target.value)}
               className="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200"

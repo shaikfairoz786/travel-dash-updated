@@ -60,7 +60,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     const initializeAuth = async () => {
       const token = localStorage.getItem(TOKEN_KEY);
-      
+
       if (token && !user) {
         // Token exists but user not loaded, fetch user profile
         await fetchUserProfile(token);
@@ -189,8 +189,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const fetchedUser = await fetchUserProfile(token);
 
       if (fetchedUser) {
-        // Navigate based on role (skip phone verification)
-        navigate(fetchedUser.role === 'admin' ? '/admin/dashboard' : '/');
+        if (!fetchedUser.phone) {
+          // Force user to provide phone number
+          navigate('/verify-phone');
+        } else {
+          // Navigate based on role 
+          navigate(fetchedUser.role === 'admin' ? '/admin/dashboard' : '/');
+        }
       }
     } catch (error) {
       console.error('Google login error', error);

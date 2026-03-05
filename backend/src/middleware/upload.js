@@ -1,43 +1,29 @@
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('cloudinary').v2;
 
-// Use /tmp for production (Railway, Vercel) because their FS is read-only
-const UPLOAD_DIR =
-  process.env.NODE_ENV === 'production'
-    ? '/tmp/uploads'
-    : path.join(__dirname, '../../public/uploads');
+// Configure Cloudinary with environment variables
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-// Ensure the upload folder exists (locally and in /tmp)
-if (!fs.existsSync(UPLOAD_DIR)) {
-  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
-}
-
-// Configure storage
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, UPLOAD_DIR);
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+// Configure Multer to use Cloudinary Storage
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'travel_app_uploads', // The folder name in your Cloudinary account
+    allowedFormats: ['jpeg', 'png', 'jpg', 'webp'],
+    transformation: [{ width: 1000, crop: "limit" }], // Optional: automatically resize large images
   },
 });
 
-// File filter (images only)
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image/')) {
-    cb(null, true);
-  } else {
-    cb(new Error('Only image files are allowed!'), false);
-  }
-};
-
 // Configure multer
 const upload = multer({
-  storage,
-  fileFilter,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  storage: storage,
+  // We no longer need fileFilter because CloudinaryStorage params handle allowedFormats
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit still applies before it uploads
 });
 
 // Export upload middleware

@@ -227,7 +227,7 @@ const createPackage = async (req, res, next) => {
       }
       parsedBody.price = priceNum;
     }
-    
+
     if (parsedBody.maxGroupSize !== undefined && parsedBody.maxGroupSize !== null && parsedBody.maxGroupSize !== '') {
       const groupSizeNum = typeof parsedBody.maxGroupSize === 'string' ? parseInt(parsedBody.maxGroupSize, 10) : parsedBody.maxGroupSize;
       if (isNaN(groupSizeNum) || groupSizeNum <= 0) {
@@ -235,7 +235,7 @@ const createPackage = async (req, res, next) => {
       }
       parsedBody.maxGroupSize = groupSizeNum;
     }
-    
+
     if (parsedBody.active !== undefined && parsedBody.active !== null) {
       // Handle boolean conversion from string
       if (typeof parsedBody.active === 'string') {
@@ -268,14 +268,14 @@ const createPackage = async (req, res, next) => {
 
     // Add main image if uploaded
     if (req.files && req.files.mainImage && Array.isArray(req.files.mainImage) && req.files.mainImage.length > 0) {
-      images.push(`/uploads/${req.files.mainImage[0].filename}`);
+      images.push(req.files.mainImage[0].path); // Cloudinary URL is in file.path
     }
 
     // Add gallery images if uploaded
     if (req.files && req.files.galleryImages && Array.isArray(req.files.galleryImages)) {
       req.files.galleryImages.forEach(file => {
-        if (file && file.filename) {
-          images.push(`/uploads/${file.filename}`);
+        if (file && file.path) {
+          images.push(file.path);
         }
       });
     }
@@ -291,7 +291,7 @@ const createPackage = async (req, res, next) => {
 
     // Validate required fields before Prisma create
     if (!packageData.title || !packageData.slug || !packageData.price) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         error: 'Missing required fields',
         missing: {
           title: !packageData.title,
@@ -320,24 +320,24 @@ const createPackage = async (req, res, next) => {
     console.error('Error message:', error.message);
     console.error('Error stack:', error.stack);
     console.error('Error code:', error.code);
-    
+
     // Return more detailed error information
     if (error.code === 'P2002') {
-      return res.status(409).json({ 
+      return res.status(409).json({
         error: 'Package with this slug already exists',
-        details: error.meta 
+        details: error.meta
       });
     }
-    
+
     if (error.code && error.code.startsWith('P')) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         error: 'Database error',
         message: error.message,
         code: error.code
       });
     }
-    
-    res.status(500).json({ 
+
+    res.status(500).json({
       error: 'Failed to create package',
       message: error.message || 'Internal server error',
       ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
@@ -394,12 +394,12 @@ const updatePackage = async (req, res, next) => {
 
     // Add main image if uploaded
     if (req.files && req.files.mainImage && req.files.mainImage[0]) {
-      images = [`/uploads/${req.files.mainImage[0].filename}`, ...images.filter(img => !img.includes('mainImage'))];
+      images = [req.files.mainImage[0].path, ...images.filter(img => !img.includes('mainImage'))];
     }
 
     // Add gallery images if uploaded
     if (req.files && req.files.galleryImages) {
-      const galleryPaths = req.files.galleryImages.map(file => `/uploads/${file.filename}`);
+      const galleryPaths = req.files.galleryImages.map(file => file.path);
       images = [...images, ...galleryPaths];
     }
 

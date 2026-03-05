@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import AdminLayout from '../../components/AdminLayout';
 import useAuth from '../../hooks/useAuth';
 import { API_BASE_URL } from "../../config/api";
 
@@ -94,16 +93,16 @@ const AdminContactsPage: React.FC = () => {
 
   if (loading) {
     return (
-      <AdminLayout>
+      <>
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
         </div>
-      </AdminLayout>
+      </>
     );
   }
 
   return (
-    <AdminLayout>
+    <>
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-secondary-800">Contact Messages</h1>
@@ -127,9 +126,8 @@ const AdminContactsPage: React.FC = () => {
                 contacts.map((contact) => (
                   <div
                     key={contact.id}
-                    className={`p-4 border-b border-secondary-100 cursor-pointer hover:bg-secondary-50 ${
-                      selectedContact?.id === contact.id ? 'bg-primary-50' : ''
-                    }`}
+                    className={`p-4 border-b border-secondary-100 cursor-pointer hover:bg-secondary-50 ${selectedContact?.id === contact.id ? 'bg-primary-50' : ''
+                      }`}
                     onClick={() => setSelectedContact(contact)}
                   >
                     <div className="flex justify-between items-start mb-2">
@@ -202,7 +200,7 @@ const AdminContactsPage: React.FC = () => {
           </div>
         </div>
       </div>
-    </AdminLayout>
+    </>
   );
 };
 

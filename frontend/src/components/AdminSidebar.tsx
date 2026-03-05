@@ -8,7 +8,8 @@ import {
   PencilSquareIcon,
   EnvelopeIcon,
   XMarkIcon,
-  ArrowRightOnRectangleIcon
+  ArrowRightOnRectangleIcon,
+  ArrowUturnLeftIcon
 } from '@heroicons/react/24/outline';
 import useAuth from '../hooks/useAuth';
 
@@ -101,7 +102,18 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onClose }) => {
         </nav>
 
         {/* Footer Actions */}
-        <div className="p-4 border-t border-slate-800 bg-slate-900/50">
+        <div className="p-4 border-t border-slate-800 bg-slate-900/50 space-y-2">
+          <Link
+            to="/"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-all group"
+            onClick={() => {
+              if (window.innerWidth < 1024) onClose();
+            }}
+          >
+            <ArrowUturnLeftIcon className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+            <span className="font-medium">Return to Site</span>
+          </Link>
+
           <button
             onClick={logout}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-all group"

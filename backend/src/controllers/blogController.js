@@ -66,7 +66,7 @@ exports.createBlog = async (req, res) => {
 
         let image = null;
         if (req.files && req.files.image && req.files.image[0]) {
-            image = `/uploads/${req.files.image[0].filename}`;
+            image = req.files.image[0].path;
         }
 
         const newBlog = await prisma.blog.create({
@@ -103,8 +103,8 @@ exports.updateBlog = async (req, res) => {
 
         let image = existingBlog.image;
         if (req.files && req.files.image && req.files.image[0]) {
-            // Ideally delete old image here
-            image = `/uploads/${req.files.image[0].filename}`;
+            // Ideally delete old image from Cloudinary here
+            image = req.files.image[0].path;
         }
 
         const updatedBlog = await prisma.blog.update({

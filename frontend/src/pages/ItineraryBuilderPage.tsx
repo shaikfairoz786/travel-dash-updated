@@ -41,6 +41,44 @@ const ItineraryBuilderPage: React.FC = () => {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [errors, setErrors] = useState<{ email?: string; whatsapp?: string }>({});
+
+    const validateEmail = (email: string) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    };
+
+    const validatePhone = (phone: string) => {
+        // Allow optional +, followed by 10 to 15 digits/spaces/dashes
+        const regex = /^\+?[\d\s-]{10,15}$/;
+        return regex.test(phone.trim());
+    };
+
+    const handleEmailChange = (val: string) => {
+        setFormData({ ...formData, email: val });
+        if (val && !validateEmail(val)) {
+            setErrors(prev => ({ ...prev, email: 'Please enter a valid email address.' }));
+        } else {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors.email;
+                return newErrors;
+            });
+        }
+    };
+
+    const handlePhoneChange = (val: string) => {
+        setFormData({ ...formData, whatsapp: val });
+        if (val && !validatePhone(val)) {
+            setErrors(prev => ({ ...prev, whatsapp: 'Please enter a valid phone number (min 10 digits).' }));
+        } else {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors.whatsapp;
+                return newErrors;
+            });
+        }
+    };
 
     const handleNext = () => {
         if (currentStep < 4) setCurrentStep(c => c + 1);
@@ -54,7 +92,11 @@ const ItineraryBuilderPage: React.FC = () => {
         if (currentStep === 1) return !!formData.vibe;
         if (currentStep === 2) return !!formData.travelerType;
         if (currentStep === 3) return true; // Defaults set
-        return formData.name && formData.email && formData.whatsapp;
+        return (
+            formData.name.trim().length > 0 &&
+            validateEmail(formData.email) &&
+            validatePhone(formData.whatsapp)
+        );
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -279,10 +321,11 @@ const ItineraryBuilderPage: React.FC = () => {
                                             type="email"
                                             required
                                             value={formData.email}
-                                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-travores-green focus:border-transparent outline-none transition-shadow"
+                                            onChange={(e) => handleEmailChange(e.target.value)}
+                                            className={`w-full px-4 py-3 rounded-xl border focus:ring-2 outline-none transition-shadow ${errors.email ? 'border-red-500 focus:ring-red-200 focus:border-red-500' : 'border-gray-300 focus:ring-travores-green focus:border-transparent'}`}
                                             placeholder="jane@example.com"
                                         />
+                                        {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">WhatsApp Number</label>
@@ -290,10 +333,11 @@ const ItineraryBuilderPage: React.FC = () => {
                                             type="tel"
                                             required
                                             value={formData.whatsapp}
-                                            onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
-                                            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-travores-green focus:border-transparent outline-none transition-shadow"
+                                            onChange={(e) => handlePhoneChange(e.target.value)}
+                                            className={`w-full px-4 py-3 rounded-xl border focus:ring-2 outline-none transition-shadow ${errors.whatsapp ? 'border-red-500 focus:ring-red-200 focus:border-red-500' : 'border-gray-300 focus:ring-travores-green focus:border-transparent'}`}
                                             placeholder="+1 234 567 8900"
                                         />
+                                        {errors.whatsapp && <p className="mt-1 text-sm text-red-500">{errors.whatsapp}</p>}
                                     </div>
                                 </div>
                             </div>
