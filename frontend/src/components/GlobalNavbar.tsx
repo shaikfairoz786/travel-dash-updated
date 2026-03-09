@@ -83,12 +83,27 @@ const GlobalNavbar: React.FC = () => {
                 {user.role === 'admin' && (
                   <Link to="/admin/dashboard" className={`${linkBaseClasses} ${linkColorClasses}`}>
                     Dashboard
+                    <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${isHome && !scrolled ? 'bg-white' : 'bg-gradient-primary'}`}></span>
                   </Link>
                 )}
+
                 <div className="flex items-center space-x-4">
-                  <span className={`font-medium ${isHome && !scrolled ? 'text-white/90' : 'text-secondary-700'}`}>
-                    Hi, {user.name.split(' ')[0]}
-                  </span>
+                  <div className="relative group flex items-center h-full py-2">
+                    <span className={`font-medium cursor-pointer flex items-center gap-1 ${isHome && !scrolled ? 'text-white/90' : 'text-secondary-700'}`}>
+                      Hi, {user.name.split(' ')[0]}
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </span>
+                    <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top overflow-hidden z-[100]">
+                      <Link to="/my-bookings" className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary-600 transition-colors">
+                        My Bookings
+                      </Link>
+                      <Link to="/my-reviews" className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary-600 transition-colors">
+                        My Reviews
+                      </Link>
+                    </div>
+                  </div>
                   <button
                     onClick={handleLogout}
                     className={isHome && !scrolled ? 'btn-secondary bg-white/10 text-white border-white/30 hover:bg-white/20' : 'btn-secondary text-sm px-4 py-2'}
@@ -142,6 +157,9 @@ const GlobalNavbar: React.FC = () => {
               <Link to="/about-us" onClick={handleLinkClick} className={`block px-4 py-3 rounded-lg font-medium transition-colors ${isHome && !scrolled ? 'text-white hover:bg-white/10' : 'text-secondary-700 hover:bg-secondary-50'}`}>
                 About Us
               </Link>
+              <Link to="/contact" onClick={handleLinkClick} className={`block px-4 py-3 rounded-lg font-medium transition-colors ${isHome && !scrolled ? 'text-white hover:bg-white/10' : 'text-secondary-700 hover:bg-secondary-50'}`}>
+                Contact
+              </Link>
 
               {!user ? (
                 <div className="grid grid-cols-2 gap-4 mt-4">
@@ -153,12 +171,23 @@ const GlobalNavbar: React.FC = () => {
                   </Link>
                 </div>
               ) : (
-                <button
-                  onClick={handleLogout}
-                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors ${isHome && !scrolled ? 'text-red-300 hover:bg-white/10' : 'text-red-600 hover:bg-red-50'}`}
-                >
-                  Logout
-                </button>
+                <div className="space-y-2 mt-2 pt-2 border-t border-gray-200/20">
+                  <div className={`px-4 py-2 text-xs font-bold uppercase tracking-wider ${isHome && !scrolled ? 'text-white/60' : 'text-gray-400'}`}>
+                    My Account
+                  </div>
+                  <Link to="/my-bookings" onClick={handleLinkClick} className={`block px-4 py-3 rounded-lg font-medium transition-colors ${isHome && !scrolled ? 'text-white hover:bg-white/10' : 'text-secondary-700 hover:bg-secondary-50'}`}>
+                    My Bookings
+                  </Link>
+                  <Link to="/my-reviews" onClick={handleLinkClick} className={`block px-4 py-3 rounded-lg font-medium transition-colors ${isHome && !scrolled ? 'text-white hover:bg-white/10' : 'text-secondary-700 hover:bg-secondary-50'}`}>
+                    My Reviews
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors ${isHome && !scrolled ? 'text-red-300 hover:bg-white/10' : 'text-red-600 hover:bg-red-50'}`}
+                  >
+                    Logout
+                  </button>
+                </div>
               )}
             </div>
           </div>

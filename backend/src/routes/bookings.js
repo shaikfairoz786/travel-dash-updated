@@ -8,11 +8,11 @@ const bookingController = require('../controllers/bookingController');
 // Create a new booking (customer only)
 router.post('/', authenticateToken, authorizeRoles('customer'), bookingController.createBooking);
 
-// Get authenticated customer's bookings (customer only)
-router.get('/my', authenticateToken, authorizeRoles('customer'), bookingController.getMyBookings);
+// Get authenticated customer's bookings (customer and admin)
+router.get('/my', authenticateToken, authorizeRoles('customer', 'admin'), bookingController.getMyBookings);
 
-// Check review eligibility for a package (customer only)
-router.get('/check-eligibility/:packageId', authenticateToken, authorizeRoles('customer'), bookingController.checkReviewEligibility);
+// Check review eligibility for a package (customer and admin)
+router.get('/check-eligibility/:packageId', authenticateToken, authorizeRoles('customer', 'admin'), bookingController.checkReviewEligibility);
 
 // Get all bookings (admin only)
 router.get('/', authenticateToken, authorizeRoles('admin'), bookingController.getAllBookings);

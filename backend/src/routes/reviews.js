@@ -17,7 +17,7 @@ router.put('/:reviewId', authenticateToken, reviewController.updateReview);
 // Delete a review (review owner or admin)
 router.delete('/:reviewId', authenticateToken, reviewController.deleteReview);
 
-// Get authenticated user's reviews (customer only)
-router.get('/user/my', authenticateToken, authorizeRoles('customer'), reviewController.getMyReviews);
+// Get authenticated user's reviews (customer and admin)
+router.get('/user/my', authenticateToken, authorizeRoles('customer', 'admin'), reviewController.getMyReviews);
 
 module.exports = router;
