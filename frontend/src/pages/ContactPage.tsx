@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { API_BASE_URL } from "../config/api"; // ✅ Import config file
 
 const ContactPage: React.FC = () => {
@@ -160,9 +160,9 @@ const ContactPage: React.FC = () => {
                       <div>
                         <h4 className="text-lg font-semibold text-secondary-800 mb-1">Office Address</h4>
                         <p className="text-secondary-600">
-                          Cherukuru Parachoor Mandalam<br />
-                          Prakasam District, Andhra Pradesh<br />
-                          523169
+                          1234 Technology Drive<br />
+                          Suite 500, Tech Valley<br />
+                          San Francisco, CA 94105
                         </p>
                       </div>
                     </div>
@@ -175,8 +175,8 @@ const ContactPage: React.FC = () => {
                       <div>
                         <h4 className="text-lg font-semibold text-secondary-800 mb-1">Phone</h4>
                         <p className="text-secondary-600">
-                          +91 9014788475<br />
-                          +91 9876543210
+                          +1 (555) 123-4567<br />
+                          +1 (555) 987-6543
                         </p>
                       </div>
                     </div>
@@ -189,8 +189,8 @@ const ContactPage: React.FC = () => {
                       <div>
                         <h4 className="text-lg font-semibold text-secondary-800 mb-1">Email</h4>
                         <p className="text-secondary-600">
-                          jagadeeshyedula@travores.com<br />
-                          support@travores.com
+                          info@traveltemplate.com<br />
+                          support@traveltemplate.com
                         </p>
                       </div>
                     </div>
@@ -220,7 +220,7 @@ const ContactPage: React.FC = () => {
                   </p>
                   <div className="space-y-4">
                     <a
-                      href="tel:+919014788475"
+                      href="tel:+15551234567"
                       className="inline-flex items-center space-x-2 bg-white text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors duration-300"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -229,7 +229,7 @@ const ContactPage: React.FC = () => {
                       <span>Call Now</span>
                     </a>
                     <a
-                      href="mailto:jagadeeshyedula@travores.com"
+                      href="mailto:info@traveltemplate.com"
                       className="inline-flex items-center space-x-2 bg-white text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors duration-300"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

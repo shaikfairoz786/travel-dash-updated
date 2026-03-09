@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   HomeIcon,
@@ -65,7 +65,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onClose }) => {
               <span className="font-bold text-white text-lg">T</span>
             </div>
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-              Travores
+              TravelTemplate
             </span>
           </Link>
           <button onClick={onClose} className="lg:hidden text-gray-400 hover:text-white">

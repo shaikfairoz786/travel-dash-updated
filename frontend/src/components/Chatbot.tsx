@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import {
     XMarkIcon,
     SparklesIcon
@@ -19,7 +19,7 @@ const Chatbot: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([
         {
             id: 1,
-            text: "👋 Hi there! Welcome to Travores. How can I help you realize your dream journey today?",
+            text: "👋 Hi there! Welcome to TravelTemplate. How can I help you realize your dream journey today?",
             sender: 'bot',
             options: [
                 { label: "Plan a Trip ✈️", action: () => handleAction('plan') },
@@ -126,7 +126,7 @@ const Chatbot: React.FC = () => {
             >
                 <img
                     src="https://iili.io/KyD9NzF.png"
-                    alt="Travores Chat"
+                    alt="TravelTemplate Chat"
                     className="w-full h-full object-cover"
                 />
             </button>
@@ -147,12 +147,12 @@ const Chatbot: React.FC = () => {
         `}
             >
                 {/* Header */}
-                <div className="bg-travores-green p-4 flex items-center gap-3">
+                <div className="bg-traveltemplate-green p-4 flex items-center gap-3">
                     <div className="bg-white/20 p-2 rounded-full">
                         <SparklesIcon className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                        <h3 className="text-white font-bold text-lg">Travores Assistant</h3>
+                        <h3 className="text-white font-bold text-lg">TravelTemplate Assistant</h3>
                         <p className="text-green-100 text-xs flex items-center gap-1">
                             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> Online
                         </p>
@@ -160,7 +160,7 @@ const Chatbot: React.FC = () => {
                 </div>
 
                 {/* Messages Body */}
-                <div className="h-[400px] overflow-y-auto p-4 bg-travores-sand/20 space-y-4">
+                <div className="h-[400px] overflow-y-auto p-4 bg-traveltemplate-sand/20 space-y-4">
                     {messages.map((msg) => (
                         <div
                             key={msg.id}
@@ -170,7 +170,7 @@ const Chatbot: React.FC = () => {
                                 className={`
                    max-w-[85%] px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-sm
                    ${msg.sender === 'user'
-                                        ? 'bg-travores-green text-white rounded-tr-none'
+                                        ? 'bg-traveltemplate-green text-white rounded-tr-none'
                                         : 'bg-white text-gray-700 rounded-tl-none border border-gray-100'
                                     }
                  `}
@@ -185,7 +185,7 @@ const Chatbot: React.FC = () => {
                                         <button
                                             key={idx}
                                             onClick={opt.action}
-                                            className="bg-white border border-travores-green text-travores-green text-xs font-semibold px-3 py-2 rounded-full hover:bg-travores-green hover:text-white transition-colors shadow-sm"
+                                            className="bg-white border border-traveltemplate-green text-traveltemplate-green text-xs font-semibold px-3 py-2 rounded-full hover:bg-traveltemplate-green hover:text-white transition-colors shadow-sm"
                                         >
                                             {opt.label}
                                         </button>
@@ -200,7 +200,7 @@ const Chatbot: React.FC = () => {
                 {/* Footer (Input placeholder) */}
                 <div className="p-3 border-t bg-white">
                     <p className="text-center text-xs text-gray-400">
-                        Automated Assistant • Powered by Travores
+                        Automated Assistant • Powered by TravelTemplate
                     </p>
                 </div>
             </div>

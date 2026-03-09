@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { EyeIcon, EyeSlashIcon, GlobeAltIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import useAuth from '../hooks/useAuth';
@@ -36,7 +36,7 @@ const LoginPage: React.FC = () => {
             </div>
             <h2 className="text-4xl font-bold mb-4 text-center">Welcome Back!</h2>
             <p className="text-xl text-white/90 text-center max-w-md mb-12 font-medium">
-              Discover amazing destinations and create unforgettable memories with Travores
+              Discover amazing destinations and create unforgettable memories with TravelTemplate
             </p>
             <div className="grid grid-cols-2 gap-6 w-full">
               <div className="text-center">
@@ -77,7 +77,7 @@ const LoginPage: React.FC = () => {
               Back to Home
             </Link>
             <h1 className="text-4xl font-bold text-secondary-900 mb-2">Welcome Back</h1>
-            <p className="text-lg text-secondary-600">Sign in to continue your journey with Travores</p>
+            <p className="text-lg text-secondary-600">Sign in to continue your journey with TravelTemplate</p>
           </div>
 
           {/* Login Form Card */}

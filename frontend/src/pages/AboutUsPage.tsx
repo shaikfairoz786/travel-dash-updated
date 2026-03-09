@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 
 const AboutUsPage: React.FC = () => {
   return (
@@ -6,7 +6,7 @@ const AboutUsPage: React.FC = () => {
       {/* Hero Section */}
       <section className="relative py-20 text-white" style={{ backgroundColor: '#006f06ff' }}>
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl font-bold mb-6 animate-fade-in">About Travores</h1>
+          <h1 className="text-5xl font-bold mb-6 animate-fade-in">About TravelTemplate</h1>
           <p className="text-xl max-w-3xl mx-auto opacity-90 animate-fade-in-delay">
             Your trusted partner in creating unforgettable travel experiences around the world
           </p>
@@ -19,7 +19,7 @@ const AboutUsPage: React.FC = () => {
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl font-bold text-secondary-800 mb-8">Our Mission</h2>
             <p className="text-lg text-secondary-600 leading-relaxed mb-8">
-              At Travores, we believe that travel is more than just visiting new places—it's about
+              At TravelTemplate, we believe that travel is more than just visiting new places—it's about
               creating memories that last a lifetime. Our mission is to make travel accessible,
               affordable, and unforgettable for everyone, regardless of their budget or experience level.
             </p>
@@ -64,7 +64,7 @@ const AboutUsPage: React.FC = () => {
               <div>
                 <h2 className="text-4xl font-bold text-secondary-800 mb-6">Our Story</h2>
                 <p className="text-lg text-secondary-600 leading-relaxed mb-6">
-                  Founded in 2020, Travores began as a small startup with a big dream: to revolutionize
+                  Founded in 2020, TravelTemplate began as a small startup with a big dream: to revolutionize
                   the way people book and experience travel. What started as a simple idea has grown into
                   a comprehensive travel platform serving thousands of happy travelers worldwide.
                 </p>
@@ -93,7 +93,7 @@ const AboutUsPage: React.FC = () => {
                 <div className="bg-gradient-light rounded-2xl p-8 shadow-soft">
                   <img
                     src="/api/placeholder/500/400"
-                    alt="Travores Team"
+                    alt="TravelTemplate Team"
                     className="w-full h-80 object-cover rounded-xl shadow-medium"
                   />
                 </div>
@@ -109,7 +109,7 @@ const AboutUsPage: React.FC = () => {
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-secondary-800 mb-4">Meet Our Team</h2>
             <p className="text-lg text-secondary-600 max-w-2xl mx-auto">
-              The passionate individuals behind Travores who make your travel dreams possible
+              The passionate individuals behind TravelTemplate who make your travel dreams possible
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -153,7 +153,7 @@ const AboutUsPage: React.FC = () => {
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-secondary-800 mb-4">Our Values</h2>
             <p className="text-lg text-secondary-600 max-w-2xl mx-auto">
-              The principles that guide everything we do at Travores
+              The principles that guide everything we do at TravelTemplate
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">

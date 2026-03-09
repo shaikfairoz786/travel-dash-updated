@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { HeartIcon, GlobeAmericasIcon, SparklesIcon } from '@heroicons/react/24/solid';
 
 const ImpactSection: React.FC = () => {
@@ -26,7 +26,7 @@ const ImpactSection: React.FC = () => {
                         </h2>
 
                         <p className="text-lg text-secondary-600 mb-8 leading-relaxed">
-                            At Travores, we believe travel is more than just sightseeing. It's about connecting with communities, preserving nature, and leaving destinations better than we found them.
+                            At TravelTemplate, we believe travel is more than just sightseeing. It's about connecting with communities, preserving nature, and leaving destinations better than we found them.
                         </p>
 
                         <div className="space-y-6">

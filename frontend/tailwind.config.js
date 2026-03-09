@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+﻿/** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
@@ -46,7 +46,7 @@ export default {
           900: '#064e3b',
           950: '#022c22',
         },
-        travores: {
+        traveltemplate: {
           green: '#2D5A27',
           brown: '#5C4033',
           sand: '#F5F5DC',

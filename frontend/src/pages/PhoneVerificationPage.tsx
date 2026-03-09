@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from "../config/api";
 
@@ -90,7 +90,7 @@ const PhoneVerificationPage: React.FC = () => {
                   type="tel"
                   required
                   className="appearance-none block w-full pl-10 pr-3 py-3 border border-secondary-200 rounded-xl placeholder-secondary-400 text-secondary-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all sm:text-sm bg-secondary-50 hover:bg-white"
-                  placeholder="Enter your phone number (e.g., +91 9876543210)"
+                  placeholder="Enter your phone number (e.g., +1 (555) 987-6543)"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
                 />

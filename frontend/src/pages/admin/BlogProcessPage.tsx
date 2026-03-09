@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
@@ -16,7 +16,7 @@ const BlogProcessPage: React.FC = () => {
         title: '',
         slug: '',
         content: '',
-        author: 'Travores Team',
+        author: 'TravelTemplate Team',
         published: true,
     });
     const [image, setImage] = useState<File | null>(null);
@@ -224,7 +224,7 @@ const BlogProcessPage: React.FC = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="px-6 py-2 bg-travores-green text-white rounded-lg hover:bg-green-800 transition-colors disabled:opacity-50"
+                            className="px-6 py-2 bg-traveltemplate-green text-white rounded-lg hover:bg-green-800 transition-colors disabled:opacity-50"
                         >
                             {loading ? 'Saving...' : (isEditMode ? 'Update Blog' : 'Create Blog')}
                         </button>

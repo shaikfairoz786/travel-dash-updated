@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import {
     ArrowRightIcon,
     ArrowLeftIcon,
@@ -110,9 +110,9 @@ const ItineraryBuilderPage: React.FC = () => {
 
     // Render Functions
     const renderProgressBar = () => (
-        <div className="w-full bg-travores-sand/30 h-2 rounded-full mb-8 overflow-hidden">
+        <div className="w-full bg-traveltemplate-sand/30 h-2 rounded-full mb-8 overflow-hidden">
             <div
-                className="bg-travores-green h-full transition-all duration-500 ease-out"
+                className="bg-traveltemplate-green h-full transition-all duration-500 ease-out"
                 style={{ width: `${(currentStep / 4) * 100}%` }}
             />
         </div>
@@ -137,43 +137,43 @@ const ItineraryBuilderPage: React.FC = () => {
         cursor-pointer rounded-2xl p-6 border-2 transition-all duration-300 transform hover:-translate-y-1
         flex flex-col items-center text-center gap-4 h-full
         ${selected
-                    ? 'border-travores-green bg-travores-green/10 shadow-lg scale-[1.02]'
-                    : 'border-gray-200 bg-white hover:border-travores-green/50 hover:shadow-md'
+                    ? 'border-traveltemplate-green bg-traveltemplate-green/10 shadow-lg scale-[1.02]'
+                    : 'border-gray-200 bg-white hover:border-traveltemplate-green/50 hover:shadow-md'
                 }
       `}
         >
-            <div className={`p-4 rounded-full ${selected ? 'bg-travores-green text-white' : 'bg-travores-sand text-travores-brown'}`}>
+            <div className={`p-4 rounded-full ${selected ? 'bg-traveltemplate-green text-white' : 'bg-traveltemplate-sand text-traveltemplate-brown'}`}>
                 {icon}
             </div>
             <div>
-                <h3 className={`font-bold text-lg mb-1 ${selected ? 'text-travores-green' : 'text-gray-800'}`}>{label}</h3>
+                <h3 className={`font-bold text-lg mb-1 ${selected ? 'text-traveltemplate-green' : 'text-gray-800'}`}>{label}</h3>
                 {desc && <p className="text-sm text-gray-500">{desc}</p>}
             </div>
-            {selected && <div className="absolute top-4 right-4 text-travores-green"><CheckCircleIcon className="w-6 h-6" /></div>}
+            {selected && <div className="absolute top-4 right-4 text-traveltemplate-green"><CheckCircleIcon className="w-6 h-6" /></div>}
         </div>
     );
 
     if (isSuccess) {
         return (
-            <div className="min-h-screen bg-travores-sand/20 flex items-center justify-center p-4">
+            <div className="min-h-screen bg-traveltemplate-sand/20 flex items-center justify-center p-4">
                 <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 max-w-lg w-full text-center animate-fade-in-down">
                     <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <SparklesIcon className="w-12 h-12 text-travores-green" />
+                        <SparklesIcon className="w-12 h-12 text-traveltemplate-green" />
                     </div>
-                    <h2 className="text-3xl font-bold text-travores-brown mb-4">Itinerary Generated!</h2>
+                    <h2 className="text-3xl font-bold text-traveltemplate-brown mb-4">Itinerary Generated!</h2>
                     <p className="text-gray-600 mb-8 text-lg">
                         Your custom {formData.pace} {formData.vibe} journey is ready.
-                        {formData.travelerType === 'Pet-Friendly' && <span className="block mt-2 font-semibold text-travores-green">🐾 Showing pet-verified destinations</span>}
+                        {formData.travelerType === 'Pet-Friendly' && <span className="block mt-2 font-semibold text-traveltemplate-green">🐾 Showing pet-verified destinations</span>}
                     </p>
                     <a
-                        href={`https://wa.me/919398281078?text=Hi, I'm interested in a ${formData.vibe} trip for ${formData.travelerType} travelers. I prefer ${formData.stayType} accommodation.`}
+                        href={`https://wa.me/91?text=Hi, I'm interested in a ${formData.vibe} trip for ${formData.travelerType} travelers. I prefer ${formData.stayType} accommodation.`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block w-full bg-travores-green hover:bg-green-800 text-white font-bold py-4 rounded-xl transition-all transform hover:scale-105 shadow-lg mb-4"
+                        className="block w-full bg-traveltemplate-green hover:bg-green-800 text-white font-bold py-4 rounded-xl transition-all transform hover:scale-105 shadow-lg mb-4"
                     >
                         Talk to a Community Expert via WhatsApp
                     </a>
-                    <button onClick={() => navigate('/')} className="text-gray-500 hover:text-travores-brown underline">
+                    <button onClick={() => navigate('/')} className="text-gray-500 hover:text-traveltemplate-brown underline">
                         Back to Home
                     </button>
                 </div>
@@ -182,12 +182,12 @@ const ItineraryBuilderPage: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-travores-sand/20 py-12 px-4 sm:px-6 lg:px-8 font-sans">
+        <div className="min-h-screen bg-traveltemplate-sand/20 py-12 px-4 sm:px-6 lg:px-8 font-sans">
             <div className="max-w-4xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-10">
-                    <p className="text-travores-green font-bold tracking-widest uppercase mb-2">Build Your Journey</p>
-                    <h1 className="text-3xl md:text-5xl font-bold text-travores-brown mb-4">Your tour, your choice, your say.</h1>
+                    <p className="text-traveltemplate-green font-bold tracking-widest uppercase mb-2">Build Your Journey</p>
+                    <h1 className="text-3xl md:text-5xl font-bold text-traveltemplate-brown mb-4">Your tour, your choice, your say.</h1>
                 </div>
 
                 {/* Wizard Container */}
@@ -261,13 +261,13 @@ const ItineraryBuilderPage: React.FC = () => {
                                         />
                                         <button
                                             onClick={() => setFormData({ ...formData, pace: 'Slow & Soulful' })}
-                                            className={`flex-1 relative z-10 py-4 font-bold rounded-lg transition-colors ${formData.pace === 'Slow & Soulful' ? 'text-travores-green' : 'text-gray-500'}`}
+                                            className={`flex-1 relative z-10 py-4 font-bold rounded-lg transition-colors ${formData.pace === 'Slow & Soulful' ? 'text-traveltemplate-green' : 'text-gray-500'}`}
                                         >
                                             Slow & Soulful
                                         </button>
                                         <button
                                             onClick={() => setFormData({ ...formData, pace: 'Fast-Paced' })}
-                                            className={`flex-1 relative z-10 py-4 font-bold rounded-lg transition-colors ${formData.pace === 'Fast-Paced' ? 'text-travores-green' : 'text-gray-500'}`}
+                                            className={`flex-1 relative z-10 py-4 font-bold rounded-lg transition-colors ${formData.pace === 'Fast-Paced' ? 'text-traveltemplate-green' : 'text-gray-500'}`}
                                         >
                                             Fast-Paced
                                         </button>
@@ -283,13 +283,13 @@ const ItineraryBuilderPage: React.FC = () => {
                                         />
                                         <button
                                             onClick={() => setFormData({ ...formData, stayType: 'Homestay' })}
-                                            className={`flex-1 relative z-10 py-4 font-bold rounded-lg transition-colors ${formData.stayType === 'Homestay' ? 'text-travores-green' : 'text-gray-500'}`}
+                                            className={`flex-1 relative z-10 py-4 font-bold rounded-lg transition-colors ${formData.stayType === 'Homestay' ? 'text-traveltemplate-green' : 'text-gray-500'}`}
                                         >
                                             Homestay
                                         </button>
                                         <button
                                             onClick={() => setFormData({ ...formData, stayType: 'Eco-Resort' })}
-                                            className={`flex-1 relative z-10 py-4 font-bold rounded-lg transition-colors ${formData.stayType === 'Eco-Resort' ? 'text-travores-green' : 'text-gray-500'}`}
+                                            className={`flex-1 relative z-10 py-4 font-bold rounded-lg transition-colors ${formData.stayType === 'Eco-Resort' ? 'text-traveltemplate-green' : 'text-gray-500'}`}
                                         >
                                             Eco-Resort
                                         </button>
@@ -311,7 +311,7 @@ const ItineraryBuilderPage: React.FC = () => {
                                             required
                                             value={formData.name}
                                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-travores-green focus:border-transparent outline-none transition-shadow"
+                                            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-traveltemplate-green focus:border-transparent outline-none transition-shadow"
                                             placeholder="Jane Doe"
                                         />
                                     </div>
@@ -322,7 +322,7 @@ const ItineraryBuilderPage: React.FC = () => {
                                             required
                                             value={formData.email}
                                             onChange={(e) => handleEmailChange(e.target.value)}
-                                            className={`w-full px-4 py-3 rounded-xl border focus:ring-2 outline-none transition-shadow ${errors.email ? 'border-red-500 focus:ring-red-200 focus:border-red-500' : 'border-gray-300 focus:ring-travores-green focus:border-transparent'}`}
+                                            className={`w-full px-4 py-3 rounded-xl border focus:ring-2 outline-none transition-shadow ${errors.email ? 'border-red-500 focus:ring-red-200 focus:border-red-500' : 'border-gray-300 focus:ring-traveltemplate-green focus:border-transparent'}`}
                                             placeholder="jane@example.com"
                                         />
                                         {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
@@ -334,7 +334,7 @@ const ItineraryBuilderPage: React.FC = () => {
                                             required
                                             value={formData.whatsapp}
                                             onChange={(e) => handlePhoneChange(e.target.value)}
-                                            className={`w-full px-4 py-3 rounded-xl border focus:ring-2 outline-none transition-shadow ${errors.whatsapp ? 'border-red-500 focus:ring-red-200 focus:border-red-500' : 'border-gray-300 focus:ring-travores-green focus:border-transparent'}`}
+                                            className={`w-full px-4 py-3 rounded-xl border focus:ring-2 outline-none transition-shadow ${errors.whatsapp ? 'border-red-500 focus:ring-red-200 focus:border-red-500' : 'border-gray-300 focus:ring-traveltemplate-green focus:border-transparent'}`}
                                             placeholder="+1 234 567 8900"
                                         />
                                         {errors.whatsapp && <p className="mt-1 text-sm text-red-500">{errors.whatsapp}</p>}
@@ -357,7 +357,7 @@ const ItineraryBuilderPage: React.FC = () => {
                                 <button
                                     onClick={handleNext}
                                     disabled={!canProceed()}
-                                    className="flex items-center px-8 py-3 bg-travores-green text-white rounded-xl font-bold shadow-lg hover:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:translate-x-1"
+                                    className="flex items-center px-8 py-3 bg-traveltemplate-green text-white rounded-xl font-bold shadow-lg hover:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:translate-x-1"
                                 >
                                     Next Step <ArrowRightIcon className="w-5 h-5 ml-2" />
                                 </button>
@@ -365,7 +365,7 @@ const ItineraryBuilderPage: React.FC = () => {
                                 <button
                                     onClick={handleSubmit}
                                     disabled={!canProceed() || isSubmitting}
-                                    className="flex items-center px-8 py-3 bg-travores-brown text-white rounded-xl font-bold shadow-lg hover:bg-brown-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all min-w-[200px] justify-center"
+                                    className="flex items-center px-8 py-3 bg-traveltemplate-brown text-white rounded-xl font-bold shadow-lg hover:bg-brown-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all min-w-[200px] justify-center"
                                 >
                                     {isSubmitting ? (
                                         <>Generating Journey...</>

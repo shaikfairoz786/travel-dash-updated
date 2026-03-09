@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeftIcon, MapPinIcon } from '@heroicons/react/24/outline';
 
@@ -87,7 +87,7 @@ const IMPACT_STORIES: Record<string, ImpactStory> = {
             )
         },
         before: {
-            title: 'Before Travores (NotOnMap Initiative)-',
+            title: 'Before TravelTemplate (NotOnMap Initiative)-',
             content: (
                 <>
                     Previously, Lum Village had been actively involved in initiatives such as '<em>Shodhyatra</em>' and '<em>Organic Fairs</em>'.
@@ -99,7 +99,7 @@ const IMPACT_STORIES: Record<string, ImpactStory> = {
             )
         },
         after: {
-            title: 'After Travores Intervention-',
+            title: 'After TravelTemplate Intervention-',
             content: (
                 <>
                     <p className="mb-4">
@@ -118,9 +118,9 @@ const IMPACT_STORIES: Record<string, ImpactStory> = {
         impact: {
             points: [
                 'Life of around 300 people will be impacted through the combined efforts and interventions.',
-                'Travores on-boarded 9 homestays which are mainly run by the women of the family.',
+                'TravelTemplate on-boarded 9 homestays which are mainly run by the women of the family.',
                 'Different community development programs will be run by us for benefit of locals.',
-                'This Travores Community village is now creating employment opportunities within the village for the youth taking steps towards self-sustainability.'
+                'This TravelTemplate Community village is now creating employment opportunities within the village for the youth taking steps towards self-sustainability.'
             ]
         }
     },

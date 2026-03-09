@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { UserGroupIcon, AdjustmentsHorizontalIcon, ClockIcon, ShieldCheckIcon, GlobeAltIcon, StarIcon } from '@heroicons/react/24/outline';
 
 const WhyChooseUs: React.FC = () => {
@@ -68,7 +68,7 @@ const WhyChooseUs: React.FC = () => {
       <div className="container mx-auto px-4 relative max-w-6xl">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="section-title animate-slide-up">
-            Why Choose Travores?
+            Why Choose TravelTemplate?
           </h2>
           <p className="text-lg text-secondary-600 max-w-3xl mx-auto animate-slide-up" style={{ animationDelay: '0.2s' }}>
             Discover what makes us the preferred choice for travelers worldwide. We're committed to delivering

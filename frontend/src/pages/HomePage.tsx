@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ClockIcon,
@@ -245,7 +245,7 @@ const HomePage: React.FC = () => {
         <div className="relative z-10 container mx-auto px-4 text-center mt-28 md:mt-40">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-semibold tracking-wide mb-6 animate-fade-in-down shadow-lg">
             <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-            Explore the World with Travores
+            Explore the World with TravelTemplate
           </div>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight tracking-tight drop-shadow-2xl animate-slide-up">
@@ -326,7 +326,7 @@ const HomePage: React.FC = () => {
               <h2 className="text-3xl md:text-5xl font-bold text-yellow-300 mb-6">Impact</h2>
               <p className="text-primary-100 text-lg leading-relaxed">
                 We work to generate alternative livelihoods & minimize distress migration from villages.
-                Read more about the impact created by the Travores team in several communities across the world.
+                Read more about the impact created by the TravelTemplate team in several communities across the world.
               </p>
             </div>
             <Link to="/impact" className="hidden md:inline-flex items-center font-bold text-white hover:text-yellow-300 transition-colors mt-6 md:mt-0">

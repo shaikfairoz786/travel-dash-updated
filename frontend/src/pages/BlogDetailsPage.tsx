@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import DOMPurify from 'dompurify';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -83,7 +83,7 @@ const BlogDetailsPage: React.FC = () => {
     // SEO: Update Page Title
     useEffect(() => {
         if (blog) {
-            document.title = `${blog.title} | Travores Stories`;
+            document.title = `${blog.title} | TravelTemplate Stories`;
         }
     }, [blog]);
 
@@ -142,7 +142,7 @@ const BlogDetailsPage: React.FC = () => {
                         <div className="flex flex-wrap items-center gap-6 text-sm md:text-base text-white/90 font-medium">
                             <span className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full">
                                 <UserIcon className="w-4 h-4" />
-                                {blog.author || "Travores Team"}
+                                {blog.author || "TravelTemplate Team"}
                             </span>
                             <span className="flex items-center gap-2">
                                 <CalendarIcon className="w-4 h-4" />
@@ -207,7 +207,7 @@ const BlogDetailsPage: React.FC = () => {
                         </div>
                         <div>
                             <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Written By</p>
-                            <h4 className="text-lg font-bold text-gray-900">{blog.author || "Travores Editor"}</h4>
+                            <h4 className="text-lg font-bold text-gray-900">{blog.author || "TravelTemplate Editor"}</h4>
                             <p className="text-sm text-gray-600">Travel enthusiast and storyteller.</p>
                         </div>
                     </div>

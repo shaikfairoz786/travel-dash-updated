@@ -1,9 +1,9 @@
-const { PrismaClient } = require('@prisma/client');
+﻿const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 exports.generateSitemap = async (req, res) => {
   try {
-    const baseUrl = 'https://travores.com'; // Replace with actual domain
+    const baseUrl = 'https://traveltemplate.com'; // Replace with actual domain
 
     // Fetch dynamic content
     const packages = await prisma.package.findMany({ where: { active: true } });

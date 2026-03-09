@@ -82,7 +82,7 @@ const BlogListPage: React.FC = () => {
                             <SparklesIcon className="w-4 h-4" /> The Travel Journal
                         </p>
                         <h1 className="text-5xl md:text-7xl font-black text-stone-900 tracking-tighter">
-                            Wanderlust<span className="text-stone-300">.</span>
+                            TravelTemplate<span className="text-stone-300">.</span>
                         </h1>
                     </div>
 

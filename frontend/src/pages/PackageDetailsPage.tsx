@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { jsPDF } from "jspdf";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
@@ -117,7 +117,7 @@ const PackageDetailsPage: React.FC = () => {
   // SEO: Update Page Title
   useEffect(() => {
     if (packageData) {
-      document.title = `${packageData.title} | Travores Packages`;
+      document.title = `${packageData.title} | TravelTemplate Packages`;
     }
   }, [packageData]);
 

@@ -8,6 +8,7 @@ import AdminLayout from './components/AdminLayout';
 import Chatbot from './components/Chatbot';
 import PageLoader from './components/PageLoader';
 import RouteTransitionLoader from './components/RouteTransitionLoader';
+import ForSaleBanner from './components/ForSaleBanner';
 
 // Lazy load all page components
 const LoginPage = lazy(() => import('./pages/LoginPage'));
@@ -52,6 +53,7 @@ function MainLayout() {
   return (
     <div className="flex flex-col min-h-screen border-0">
       <ScrollToTop />
+      <ForSaleBanner />
       {!isAdminRoute && <GlobalNavbar />}
 
       <main className={`flex-grow ${isAdminRoute ? 'h-screen w-full' : ''}`}>

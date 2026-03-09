@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { EyeIcon, EyeSlashIcon, UserPlusIcon, ArrowRightIcon, CheckIcon } from '@heroicons/react/24/outline';
 import useAuth from '../hooks/useAuth';
@@ -54,7 +54,7 @@ const RegisterPage: React.FC = () => {
                 <UserPlusIcon className="h-16 w-16 text-white" />
               </div>
             </div>
-            <h2 className="text-4xl font-bold mb-4 text-center">Join Travores</h2>
+            <h2 className="text-4xl font-bold mb-4 text-center">Join TravelTemplate</h2>
             <p className="text-xl text-white/90 text-center max-w-md mb-12 font-medium">
               Start your journey to amazing destinations and create unforgettable memories
             </p>
@@ -86,7 +86,7 @@ const RegisterPage: React.FC = () => {
                 <UserPlusIcon className="h-12 w-12 text-white" />
               </div>
             </div>
-            <h1 className="text-3xl font-bold text-secondary-900 mb-2">Join Travores</h1>
+            <h1 className="text-3xl font-bold text-secondary-900 mb-2">Join TravelTemplate</h1>
             <p className="text-secondary-600">Create your account and start your adventure</p>
           </div>
 
@@ -96,7 +96,7 @@ const RegisterPage: React.FC = () => {
               <ArrowRightIcon className="h-5 w-5 mr-2 rotate-180" />
               Back to Home
             </Link>
-            <h1 className="text-4xl font-bold text-secondary-900 mb-2">Join Travores</h1>
+            <h1 className="text-4xl font-bold text-secondary-900 mb-2">Join TravelTemplate</h1>
             <p className="text-lg text-secondary-600">Create your account and start your adventure</p>
           </div>
 

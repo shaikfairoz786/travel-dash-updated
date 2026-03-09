@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { PhoneIcon, EnvelopeIcon, MapPinIcon, HeartIcon } from '@heroicons/react/24/outline';
 
@@ -17,9 +17,9 @@ const Footer: React.FC = () => {
             {/* Company Info */}
             <div className="animate-slide-in-left">
               <div className="flex items-center mb-6">
-                <img src="https://iili.io/KyD9NzF.png" alt="Travores Logo" className="h-10 w-10 rounded-full object-cover mr-3" />
+                <img src="https://iili.io/KyD9NzF.png" alt="TravelTemplate Logo" className="h-10 w-10 rounded-full object-cover mr-3" />
                 <span className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                  Travores
+                  TravelTemplate
                 </span>
               </div>
               <p className="text-secondary-300 mb-6 leading-relaxed">
@@ -27,10 +27,10 @@ const Footer: React.FC = () => {
                 We make dreams come true, one journey at a time.
               </p>
               <div className="flex space-x-4">
-                <a href="https://instagram.com/travelwithtravores" target="_blank" rel="noopener noreferrer" className="bg-secondary-800 hover:bg-primary-600 p-3 rounded-full transition-all duration-300 hover:scale-110 group">
+                <a href="https://instagram.com/travelwithtraveltemplate" target="_blank" rel="noopener noreferrer" className="bg-secondary-800 hover:bg-primary-600 p-3 rounded-full transition-all duration-300 hover:scale-110 group">
                   <span className="sr-only">Instagram</span>
                   <svg className="h-5 w-5 text-secondary-300 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12.017 0C8.396 0 7.996.014 6.8.067 5.609.12 4.694.265 3.923.51c-.8.248-1.48.576-2.156.95C.8 1.834.432 2.502.216 3.278c-.245.8-.372 1.714-.42 2.905C-.01 7.375 0 7.775 0 11.396s-.014 3.996-.067 5.192c-.053 1.196-.265 2.111-.51 2.882-.248.8-.576 1.48-.95 2.156-.374.676-1.042 1.044-1.818 1.26-.8.245-1.714.372-2.905.42C3.621 23.99 4.021 24 7.642 24s3.996-.014 5.192-.067c1.196-.053 2.111-.265 2.882-.51.8-.248 1.48-.576 2.156-.95.676-.374 1.044-1.042 1.26-1.818.245-.8.372-1.714.42-2.905.053-1.196.067-1.596.067-5.217s.014-3.996.067-5.192c.053-1.196.265-2.111.51-2.882.248-.8.576-1.48.95-2.156C22.166 1.2 22.834.832 23.61.616c.8-.245 1.714-.372 2.905-.42C20.379.01 19.979 0 16.358 0s-3.996.014-5.192.067c-1.196.053-2.111.265-2.882.51-.8.248-1.48.576-2.156.95C1.834.8.832 1.168.616 1.944c-.245.8-.372 1.714-.42 2.905C.01 4.621 0 5.021 0 8.642zM12.017 5.838a6.163 6.163 0 100 12.326 6.163 6.163 0 000-12.326zm0 10.162a3.999 3.999 0 110-7.998 3.999 3.999 0 010 7.998zm6.406-11.845a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"/>
+                    <path d="M12.017 0C8.396 0 7.996.014 6.8.067 5.609.12 4.694.265 3.923.51c-.8.248-1.48.576-2.156.95C.8 1.834.432 2.502.216 3.278c-.245.8-.372 1.714-.42 2.905C-.01 7.375 0 7.775 0 11.396s-.014 3.996-.067 5.192c-.053 1.196-.265 2.111-.51 2.882-.248.8-.576 1.48-.95 2.156-.374.676-1.042 1.044-1.818 1.26-.8.245-1.714.372-2.905.42C3.621 23.99 4.021 24 7.642 24s3.996-.014 5.192-.067c1.196-.053 2.111-.265 2.882-.51.8-.248 1.48-.576 2.156-.95.676-.374 1.044-1.042 1.26-1.818.245-.8.372-1.714.42-2.905.053-1.196.067-1.596.067-5.217s.014-3.996.067-5.192c.053-1.196.265-2.111.51-2.882.248-.8.576-1.48.95-2.156C22.166 1.2 22.834.832 23.61.616c.8-.245 1.714-.372 2.905-.42C20.379.01 19.979 0 16.358 0s-3.996.014-5.192.067c-1.196.053-2.111.265-2.882.51-.8.248-1.48.576-2.156.95C1.834.8.832 1.168.616 1.944c-.245.8-.372 1.714-.42 2.905C.01 4.621 0 5.021 0 8.642zM12.017 5.838a6.163 6.163 0 100 12.326 6.163 6.163 0 000-12.326zm0 10.162a3.999 3.999 0 110-7.998 3.999 3.999 0 010 7.998zm6.406-11.845a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z" />
                   </svg>
                 </a>
               </div>
@@ -97,18 +97,18 @@ const Footer: React.FC = () => {
                 <div className="flex items-start">
                   <MapPinIcon className="h-6 w-6 text-primary-400 mr-3 flex-shrink-0 mt-0.5" />
                   <span className="text-secondary-300 leading-relaxed">
-                    Cherukuru Parachoor Mandalam<br />
-                    Prakasam District, Andhra Pradesh<br />
-                    523169
+                    1234 Technology Drive<br />
+                    Suite 500, Tech Valley<br />
+                    San Francisco, CA 94105
                   </span>
                 </div>
                 <div className="flex items-center">
                   <PhoneIcon className="h-6 w-6 text-primary-400 mr-3 flex-shrink-0" />
-                  <span className="text-secondary-300">+91 9014788475</span>
+                  <span className="text-secondary-300">+1 (555) 123-4567</span>
                 </div>
                 <div className="flex items-center">
                   <EnvelopeIcon className="h-6 w-6 text-primary-400 mr-3 flex-shrink-0" />
-                  <span className="text-secondary-300">jagadeeshyedula@travores.com</span>
+                  <span className="text-secondary-300">info@traveltemplate.com</span>
                 </div>
               </div>
             </div>
@@ -140,7 +140,7 @@ const Footer: React.FC = () => {
           <div className="container mx-auto px-4 py-6">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="flex items-center text-secondary-400 text-sm mb-4 md:mb-0">
-                <span>&copy; {new Date().getFullYear()} Travores. All rights reserved.</span>
+                <span>&copy; {new Date().getFullYear()} TravelTemplate. All rights reserved.</span>
                 <HeartIcon className="h-4 w-4 text-red-500 mx-2 animate-pulse" />
                 <span>Made with love for travelers</span>
               </div>

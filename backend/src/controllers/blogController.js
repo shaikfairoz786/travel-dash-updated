@@ -1,4 +1,4 @@
-const { PrismaClient } = require('@prisma/client');
+﻿const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const fs = require('fs');
 const path = require('path');
@@ -75,7 +75,7 @@ exports.createBlog = async (req, res) => {
                 slug,
                 content,
                 image,
-                author: author || 'Travores Team',
+                author: author || 'TravelTemplate Team',
                 published: published === 'true' || published === true
             }
         });

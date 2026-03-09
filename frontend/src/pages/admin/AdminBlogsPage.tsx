@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
@@ -68,7 +68,7 @@ const AdminBlogsPage: React.FC = () => {
                 <h1 className="text-2xl font-bold text-gray-800">Manage Blogs</h1>
                 <Link
                     to="/admin/blogs/add"
-                    className="flex items-center gap-2 bg-travores-green text-white px-4 py-2 rounded-lg hover:bg-green-800 transition-colors"
+                    className="flex items-center gap-2 bg-traveltemplate-green text-white px-4 py-2 rounded-lg hover:bg-green-800 transition-colors"
                 >
                     <PlusIcon className="w-5 h-5" />
                     Add New Blog

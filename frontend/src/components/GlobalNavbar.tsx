@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
@@ -36,8 +36,8 @@ const GlobalNavbar: React.FC = () => {
 
   // Dynamic Styles
   const navClasses = isHome && !scrolled
-    ? 'fixed top-0 w-full z-50 bg-gradient-to-b from-black/70 to-transparent transition-all duration-300 py-6'
-    : 'sticky top-0 w-full z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-secondary-100 transition-all duration-300 py-3';
+    ? 'fixed top-[48px] sm:top-[44px] w-full z-40 bg-gradient-to-b from-black/70 to-transparent transition-all duration-300 py-6'
+    : 'sticky top-[48px] sm:top-[44px] w-full z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-secondary-100 transition-all duration-300 py-3';
 
   const linkBaseClasses = "font-medium relative group transition-all duration-300";
   const linkColorClasses = isHome && !scrolled
@@ -53,8 +53,8 @@ const GlobalNavbar: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <Link to="/" className={`flex items-center space-x-3 text-2xl md:text-3xl font-bold hover:scale-105 transition-transform duration-300 ${logoTextClasses}`}>
-            <img src="https://iili.io/KyD9NzF.png" alt="Travores Logo" className="h-10 w-10 md:h-12 md:w-12 rounded-full object-cover border-2 border-white/20" />
-            <span>Travores</span>
+            <img src="https://iili.io/KyD9NzF.png" alt="TravelTemplate Logo" className="h-10 w-10 md:h-12 md:w-12 rounded-full object-cover border-2 border-white/20" />
+            <span>TravelTemplate</span>
           </Link>
 
           <div className="hidden md:flex items-center space-x-8">
@@ -62,7 +62,7 @@ const GlobalNavbar: React.FC = () => {
               Home
               <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${isHome && !scrolled ? 'bg-white' : 'bg-gradient-primary'}`}></span>
             </Link>
-            <Link to="/plan-my-trip" className={`${linkBaseClasses} ${isHome && !scrolled ? 'text-white hover:text-primary-200' : 'text-travores-green hover:text-travores-brown'} font-bold`}>
+            <Link to="/plan-my-trip" className={`${linkBaseClasses} ${isHome && !scrolled ? 'text-white hover:text-primary-200' : 'text-traveltemplate-green hover:text-traveltemplate-brown'} font-bold`}>
               Plan My Trip
             </Link>
             <Link to="/blogs" className={`${linkBaseClasses} ${linkColorClasses}`}>
@@ -148,7 +148,7 @@ const GlobalNavbar: React.FC = () => {
               <Link to="/" onClick={handleLinkClick} className={`block px-4 py-3 rounded-lg font-medium transition-colors ${isHome && !scrolled ? 'text-white hover:bg-white/10' : 'text-secondary-700 hover:bg-secondary-50'}`}>
                 Home
               </Link>
-              <Link to="/plan-my-trip" onClick={handleLinkClick} className={`block px-4 py-3 rounded-lg font-bold transition-colors ${isHome && !scrolled ? 'text-green-300 hover:bg-white/10' : 'text-travores-green hover:bg-secondary-50'}`}>
+              <Link to="/plan-my-trip" onClick={handleLinkClick} className={`block px-4 py-3 rounded-lg font-bold transition-colors ${isHome && !scrolled ? 'text-green-300 hover:bg-white/10' : 'text-traveltemplate-green hover:bg-secondary-50'}`}>
                 Plan My Trip
               </Link>
               <Link to="/blogs" onClick={handleLinkClick} className={`block px-4 py-3 rounded-lg font-medium transition-colors ${isHome && !scrolled ? 'text-white hover:bg-white/10' : 'text-secondary-700 hover:bg-secondary-50'}`}>
