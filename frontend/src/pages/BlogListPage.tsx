@@ -36,7 +36,7 @@ const BlogListPage: React.FC = () => {
 
     const fetchBlogs = async () => {
         try {
-            const response = await axios.get('/api/blogs');
+            const response = await axios.get(`${API_BASE_URL}/api/blogs`);
             setBlogs(response.data.blogs || []);
             setLoading(false);
         } catch (error) {

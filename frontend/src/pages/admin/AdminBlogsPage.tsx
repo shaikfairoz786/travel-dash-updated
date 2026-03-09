@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
 import { PlusIcon, PencilSquareIcon, TrashIcon, EyeIcon } from '@heroicons/react/24/outline';
+import { API_BASE_URL } from '../../config/api';
 
 interface Blog {
     id: string;
@@ -29,7 +30,7 @@ const AdminBlogsPage: React.FC = () => {
         try {
             if (!session?.access_token) return;
 
-            const response = await axios.get('/api/blogs/admin/all', {
+            const response = await axios.get(`${API_BASE_URL}/api/blogs/admin/all`, {
                 headers: { Authorization: `Bearer ${session.access_token}` }
             });
             setBlogs(response.data);
@@ -49,7 +50,7 @@ const AdminBlogsPage: React.FC = () => {
         try {
             if (!session?.access_token) return;
 
-            await axios.delete(`/api/blogs/${id}`, {
+            await axios.delete(`${API_BASE_URL}/api/blogs/${id}`, {
                 headers: { Authorization: `Bearer ${session.access_token}` }
             });
             fetchBlogs();

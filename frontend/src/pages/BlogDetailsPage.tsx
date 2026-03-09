@@ -59,11 +59,11 @@ const BlogDetailsPage: React.FC = () => {
         const fetchData = async () => {
             try {
                 // 1. Fetch current blog
-                const blogRes = await axios.get(`/api/blogs/${slug}`);
+                const blogRes = await axios.get(`${API_BASE_URL}/api/blogs/${slug}`);
                 setBlog(blogRes.data);
 
                 // 2. Fetch related blogs (latest 4, then filter out current)
-                const relatedRes = await axios.get('/api/blogs?limit=4');
+                const relatedRes = await axios.get(`${API_BASE_URL}/api/blogs?limit=4`);
                 // The API returns { blogs: [...] }, check structure if needed (controller returns { blogs, totalPages... })
                 const allBlogs = relatedRes.data.blogs || [];
                 const filtered = allBlogs.filter((b: Blog) => b.slug !== slug).slice(0, 3);

@@ -42,7 +42,7 @@ const BlogProcessPage: React.FC = () => {
         try {
             if (!session?.access_token) return;
             // Actually, let's try to fetch all admin blogs and find it? Inefficient but works for now.
-            const allResponse = await axios.get('/api/blogs/admin/all', { headers: { Authorization: `Bearer ${session.access_token}` } });
+            const allResponse = await axios.get(`${API_BASE_URL}/api/blogs/admin/all`, { headers: { Authorization: `Bearer ${session.access_token}` } });
             const found = allResponse.data.find((b: any) => b.id === id);
             if (found) {
                 setFormData({
@@ -104,9 +104,9 @@ const BlogProcessPage: React.FC = () => {
             };
 
             if (isEditMode) {
-                await axios.put(`/api/blogs/${id}`, data, config);
+                await axios.put(`${API_BASE_URL}/api/blogs/${id}`, data, config);
             } else {
-                await axios.post('/api/blogs', data, config);
+                await axios.post(`${API_BASE_URL}/api/blogs`, data, config);
             }
 
             navigate('/admin/blogs');
