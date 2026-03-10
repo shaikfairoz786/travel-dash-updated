@@ -23,6 +23,7 @@ interface Package {
     main?: string;
     gallery?: string[];
   };
+  highlights?: string[];
   averageRating?: number;
   reviewCount?: number;
   reviews?: Review[];
@@ -396,6 +397,13 @@ const PackageDetailsPage: React.FC = () => {
                 <p className="text-gray-600 leading-relaxed">
                   {packageData.overview}
                 </p>
+              </Section>
+            )}
+
+            {/* ===== Highlights ===== */}
+            {packageData.highlights && Array.isArray(packageData.highlights) && packageData.highlights.length > 0 && (
+              <Section title="Key Highlights">
+                <List items={packageData.highlights} color="green" />
               </Section>
             )}
 
