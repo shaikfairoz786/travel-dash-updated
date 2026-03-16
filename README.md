@@ -1,129 +1,42 @@
-# Travel App
+# TravelTemplate - Full-Stack Application Setup Guide
 
-A full-stack travel booking application built with React, Node.js, Express, and PostgreSQL.
+Welcome to the TravelTemplate source code! Follow these steps to get the app running on your local machine.
 
-## Features
-
-- User authentication and authorization
-- Travel package management
-- Booking system
-- Review system
-- Admin dashboard
-- File upload functionality
-- Responsive design
-
-## Tech Stack
-
-- **Frontend:** React, TypeScript, Tailwind CSS, React Router
-- **Backend:** Node.js, Express.js, Prisma ORM
-- **Database:** PostgreSQL
-- **Authentication:** JWT
-- **File Storage:** Supabase
-- **Deployment:** Docker
-
-## Getting Started
-
-### Prerequisites
-
+## Prerequisites
 - Node.js (v18 or higher)
-- PostgreSQL
-- Docker (optional, for containerized deployment)
+- PostgreSQL Database (Local or Neon.tech)
+- Cloudinary Account (for image uploads)
+- Stripe Account (for payments)
 
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd travel-app
+## 1. Backend Setup
+1. Open your terminal and navigate to the backend folder: `cd backend`
+2. Install dependencies: `npm install`
+3. Create a `.env` file in the backend folder and add the following:
+   ```env
+   PORT=5000
+   DATABASE_URL="your_postgresql_connection_string"
+   JWT_SECRET="any_random_long_string"
+   CLOUDINARY_CLOUD_NAME="your_cloud_name"
+   CLOUDINARY_API_KEY="your_api_key"
+   CLOUDINARY_API_SECRET="your_api_secret"
+   STRIPE_SECRET_KEY="your_stripe_secret"
    ```
+4. Push the Prisma Schema to your database: `npx prisma db push`
+5. Start the backend server: `npm run dev` (Runs on http://localhost:5000)
 
-2. Install dependencies:
-   ```bash
-   npm install
-   cd frontend && npm install && cd ..
+## 2. Frontend Setup
+1. Open a new terminal and navigate to the frontend folder: `cd frontend`
+2. Install dependencies: `npm install`
+3. Create a `.env` file in the frontend folder:
+   ```env
+   VITE_API_BASE_URL="http://localhost:5000"
+   VITE_STRIPE_PUBLIC_KEY="your_stripe_public_key"
    ```
+4. Start the frontend server: `npm run dev` (Runs on http://localhost:5173)
 
-3. Set up environment variables:
-   ```bash
-   cp .env.example .env
-   # Edit .env with your configuration
-   ```
-
-4. Set up the database:
-   ```bash
-   npx prisma generate
-   npx prisma db push
-   npm run prisma.seed
-   ```
-
-5. Build the frontend:
-   ```bash
-   cd frontend && npm run build && cd ..
-   ```
-
-6. Start the application:
-   ```bash
-   npm start
-   ```
-
-The application will be available at `http://localhost:5000`.
-
-## Development
-
-### Running in development mode
-
-1. Start the backend:
-   ```bash
-   cd backend && npm run dev
-   ```
-
-2. Start the frontend:
-   ```bash
-   cd frontend && npm run dev
-   ```
-
-## Deployment
-
-### Using Docker
-
-1. Build and run with Docker Compose:
-   ```bash
-   docker-compose up --build
-   ```
-
-### Manual Deployment
-
-1. Build the frontend:
-   ```bash
-   cd frontend && npm run build
-   ```
-
-2. Start the backend:
-   ```bash
-   npm start
-   ```
-
-## Environment Variables
-
-See `.env.example` for required environment variables.
-
-## API Documentation
-
-The API endpoints are available at `/api/*`. Key endpoints include:
-
-- `POST /api/auth/login` - User login
-- `POST /api/auth/register` - User registration
-- `GET /api/packages` - Get all packages
-- `POST /api/bookings` - Create booking
-- `GET /api/admin/dashboard` - Admin dashboard data
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License.
+## 3. Creating an Admin Account
+To access the Admin Dashboard (`/admin`), you need to manually change a user's role in your database:
+1. Register a normal account on the frontend.
+2. Open your database (or run `npx prisma studio` in the backend folder).
+3. Find your user record and change the `role` from `"customer"` to `"admin"`.
+4. Log out and log back in. You will now see the Admin Panel!

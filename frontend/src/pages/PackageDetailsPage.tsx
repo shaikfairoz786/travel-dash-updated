@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { jsPDF } from "jspdf";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
@@ -301,12 +301,12 @@ const PackageDetailsPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-primary-50 pt-8">
-      <div className="container mx-auto p-4">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div className="min-h-screen bg-primary-50 pt-4 md:pt-8">
+      <div className="container mx-auto px-4 py-4 md:py-8 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
           {/* ===== Left Content ===== */}
           <div className="lg:col-span-2">
-            <h1 className="text-4xl font-bold text-gray-800 mb-4">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 leading-tight">
               {packageData.title}
             </h1>
 
@@ -317,7 +317,7 @@ const PackageDetailsPage: React.FC = () => {
               onMouseLeave={() => setIsHovering(false)}
             >
               {/* Main Slider Window */}
-              <div className="relative h-[34rem] w-full rounded-2xl overflow-hidden shadow-2xl mb-6 bg-secondary-900 group">
+              <div className="relative h-[22rem] sm:h-[28rem] md:h-[34rem] w-full rounded-2xl overflow-hidden shadow-2xl mb-6 bg-secondary-900 group">
 
                 {/* Sliding Track */}
                 <div
@@ -329,6 +329,7 @@ const PackageDetailsPage: React.FC = () => {
                       <img
                         src={getImageUrl(img)}
                         alt={`${packageData.title} view ${idx + 1}`}
+                        crossOrigin="anonymous"
                         className="w-full h-full object-cover"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src = placeholder;

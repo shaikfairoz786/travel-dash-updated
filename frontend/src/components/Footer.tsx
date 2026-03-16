@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { PhoneIcon, EnvelopeIcon, MapPinIcon, HeartIcon } from '@heroicons/react/24/outline';
 
@@ -12,8 +12,8 @@ const Footer: React.FC = () => {
 
       <div className="relative">
         {/* Main Footer Content */}
-        <div className="container mx-auto px-4 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div className="container mx-auto px-4 py-10 md:py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10 md:mb-12">
             {/* Company Info */}
             <div className="animate-slide-in-left">
               <div className="flex items-center mb-6">
@@ -115,7 +115,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Newsletter Signup */}
-          <div className="bg-secondary-800 rounded-2xl p-8 mb-12 animate-fade-in">
+          <div className="bg-secondary-800 rounded-2xl p-6 md:p-8 mb-8 md:mb-12 animate-fade-in mx-4 md:mx-0">
             <div className="text-center max-w-2xl mx-auto">
               <h3 className="text-2xl font-bold text-white mb-4">Stay Updated</h3>
               <p className="text-secondary-300 mb-6">
@@ -138,13 +138,15 @@ const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="border-t border-secondary-700">
           <div className="container mx-auto px-4 py-6">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <div className="flex items-center text-secondary-400 text-sm mb-4 md:mb-0">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
+              <div className="flex flex-col md:flex-row items-center justify-center text-secondary-400 text-sm gap-2 md:gap-0 text-center">
                 <span>&copy; {new Date().getFullYear()} TravelTemplate. All rights reserved.</span>
-                <HeartIcon className="h-4 w-4 text-red-500 mx-2 animate-pulse" />
-                <span>Made with love for travelers</span>
+                <div className="flex items-center">
+                  <HeartIcon className="h-4 w-4 text-red-500 mx-2 animate-pulse hidden md:block" />
+                  <span className="hidden md:block">Made with love for travelers</span>
+                </div>
               </div>
-              <div className="flex space-x-6">
+              <div className="flex flex-wrap justify-center gap-4 md:space-x-6">
                 <a href="#" className="text-secondary-400 hover:text-primary-400 text-sm transition-colors duration-300">
                   Privacy Policy
                 </a>

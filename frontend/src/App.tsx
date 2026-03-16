@@ -51,7 +51,7 @@ function MainLayout() {
   const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
-    <div className="flex flex-col min-h-screen border-0">
+    <div className="flex flex-col min-h-screen border-0 overflow-x-hidden">
       <ScrollToTop />
       <ForSaleBanner />
       {!isAdminRoute && <GlobalNavbar />}

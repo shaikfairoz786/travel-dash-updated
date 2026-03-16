@@ -20,10 +20,10 @@ const SearchBar: React.FC = () => {
 
   return (
     <div className="w-full max-w-5xl mx-auto">
-      <form onSubmit={handleSearch} className="bg-white rounded-full shadow-2xl p-2 pl-6 animate-fade-in flex flex-col md:flex-row items-center gap-2 md:gap-0 border border-gray-100">
+      <form onSubmit={handleSearch} className="bg-white rounded-2xl md:rounded-full shadow-2xl p-3 md:p-2 md:pl-6 animate-fade-in flex flex-col md:flex-row items-center gap-0 border border-gray-100 divide-y md:divide-y-0 relative">
 
         {/* Destination Field */}
-        <div className="flex-1 w-full relative group">
+        <div className="flex-1 w-full relative group pb-3 md:pb-0 px-2 md:px-0">
           <div className="flex items-center">
             <div className="p-3 bg-gray-50 rounded-full text-secondary-400 group-focus-within:bg-primary-50 group-focus-within:text-primary-600 transition-colors">
               <MapPinIcon className="h-6 w-6" />
@@ -44,11 +44,11 @@ const SearchBar: React.FC = () => {
           </div>
         </div>
 
-        {/* Divider */}
+        {/* Divider Desktop */}
         <div className="hidden md:block w-px h-10 bg-gray-200 mx-4"></div>
 
         {/* Guests Field */}
-        <div className="flex-1 w-full relative group">
+        <div className="flex-1 w-full relative group pt-3 md:pt-0 px-2 md:px-0">
           <div className="flex items-center">
             <div className="p-3 bg-gray-50 rounded-full text-secondary-400 group-focus-within:bg-primary-50 group-focus-within:text-primary-600 transition-colors">
               <UsersIcon className="h-6 w-6" />
@@ -76,15 +76,15 @@ const SearchBar: React.FC = () => {
         {/* Search Button */}
         <button
           type="submit"
-          className="w-full md:w-auto bg-emerald-600 hover:bg-emerald-700 text-white rounded-full p-4 md:px-8 md:py-4 shadow-lg hover:shadow-glow transition-all duration-300 flex items-center justify-center gap-2 group transform hover:scale-105 ml-2"
+          className="w-full md:w-auto bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl md:rounded-full py-3.5 md:py-4 md:px-8 mt-3 md:mt-0 shadow-lg hover:shadow-glow transition-all duration-300 flex items-center justify-center gap-2 group transform hover:scale-105 md:ml-2 font-bold md:font-normal"
         >
-          <MagnifyingGlassIcon className="h-6 w-6 group-hover:rotate-90 transition-transform duration-300" />
-          <span className="md:hidden">Search</span>
+          <MagnifyingGlassIcon className="h-5 w-5 md:h-6 md:w-6 group-hover:rotate-90 transition-transform duration-300" />
+          <span className="md:hidden">Search Packages</span>
         </button>
       </form>
 
       {/* Quick Search Options */}
-      <div className="mt-6 flex flex-wrap justify-center gap-3 animate-fade-in animation-delay-200">
+      <div className="mt-5 md:mt-6 flex flex-wrap justify-center gap-2 md:gap-3 animate-fade-in animation-delay-200 px-2">
         <span className="text-white/80 text-sm font-medium py-1">Popular:</span>
         {['Bali', 'Paris', 'Tokyo', 'Swiss Alps', 'Dubai'].map((city) => (
           <button

@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ClockIcon,
@@ -92,7 +92,7 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
-        setItemsPerSlide(1);
+        setItemsPerSlide(99); // Mobile: Show all items in swipe list
       } else if (window.innerWidth < 1024) {
         setItemsPerSlide(2);
       } else {
@@ -248,14 +248,14 @@ const HomePage: React.FC = () => {
             Explore the World with TravelTemplate
           </div>
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight tracking-tight drop-shadow-2xl animate-slide-up">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-4 md:mb-6 leading-tight tracking-tight drop-shadow-2xl animate-slide-up">
             Chase The <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 via-white to-accent-300">
               Extraordinary
             </span>
           </h1>
 
-          <p className="text-base md:text-lg text-gray-200 mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-md animate-slide-up animation-delay-200">
+          <p className="text-sm sm:text-base md:text-lg text-gray-200 mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-md animate-slide-up animation-delay-200 px-2">
             Discover curated packages, hidden gems, and unforgettable experiences. Your next great story begins today.
           </p>
 
@@ -288,30 +288,30 @@ const HomePage: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 h-[600px] md:h-[500px]">
+          <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 pb-4 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-6 h-[400px] md:h-[500px]">
             <DestinationCard
               image={DEMO_IMAGES.bali}
               title="Bali, Indonesia"
               subtitle="Tropical Paradise"
-              className="md:col-span-2 md:row-span-2"
+              className="flex-none w-[85vw] sm:w-[60vw] md:w-auto h-full snap-center md:col-span-2 md:row-span-2"
             />
             <DestinationCard
               image={DEMO_IMAGES.paris}
               title="Paris, France"
               subtitle="City of Lights"
-              className=""
+              className="flex-none w-[85vw] sm:w-[60vw] md:w-auto h-full snap-center"
             />
             <DestinationCard
               image={DEMO_IMAGES.tokyo}
               title="Tokyo, Japan"
               subtitle="Future Meets Tradition"
-              className=""
+              className="flex-none w-[85vw] sm:w-[60vw] md:w-auto h-full snap-center"
             />
             <DestinationCard
               image={DEMO_IMAGES.swiss}
               title="Swiss Alps"
               subtitle="Winter Wonderland"
-              className="md:col-span-2"
+              className="flex-none w-[85vw] sm:w-[60vw] md:w-auto h-full snap-center md:col-span-2"
             />
           </div>
         </div>
@@ -335,22 +335,25 @@ const HomePage: React.FC = () => {
           </div>
 
           {/* Cards Carousel */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 pb-4 md:pb-0 mb-8 md:mb-12">
             {visibleImpacts.map((story, idx) => (
-              <ImpactCard
-                key={idx}
-                slug={story.slug}
-                image={story.image}
-                title={story.title}
-                description={story.description}
-                highlight={story.highlight}
-              />
+              <div key={idx} className="flex-none w-[85vw] sm:w-[60vw] md:w-auto h-auto snap-center flex">
+                <div className="w-full h-full">
+                  <ImpactCard
+                    slug={story.slug}
+                    image={story.image}
+                    title={story.title}
+                    description={story.description}
+                    highlight={story.highlight}
+                  />
+                </div>
+              </div>
             ))}
           </div>
 
           {/* Dots Navigation for Impact */}
           {totalImpactSlides > 1 && (
-            <div className="flex justify-center gap-2 mb-8">
+            <div className="hidden md:flex justify-center gap-2 mb-8">
               {Array.from({ length: totalImpactSlides }).map((_, idx) => (
                 <button
                   key={idx}
@@ -392,14 +395,15 @@ const HomePage: React.FC = () => {
           </div>
 
           {/* Cards Carousel */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16 transition-all max-w-6xl mx-auto">
+          <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 pb-4 md:pb-0 mb-12 md:mb-16 transition-all max-w-6xl mx-auto">
             {visiblePackages.map((pkg) => (
-              <Link to={`/package/${pkg.slug}`} key={pkg.id} className="block h-full">
-                <div className="group bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col h-full overflow-hidden hover:-translate-y-2 cursor-pointer border border-transparent hover:border-primary-100">
+              <Link to={`/package/${pkg.slug}`} key={pkg.id} className="block h-full flex-none w-[85vw] sm:w-[60vw] md:w-auto snap-center">
+                <div className="group bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col h-full overflow-hidden md:hover:-translate-y-2 cursor-pointer border border-transparent hover:border-primary-100">
                   <div className="relative h-64 overflow-hidden">
                     <img
                       src={getImageUrl(pkg.images?.main)}
                       alt={pkg.title}
+                      crossOrigin="anonymous"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = placeholder;
                       }}
@@ -439,7 +443,7 @@ const HomePage: React.FC = () => {
 
           {/* Dots Navigation */}
           {totalSlides > 1 && (
-            <div className="flex justify-center gap-2 mb-12">
+            <div className="hidden md:flex justify-center gap-2 mb-12">
               {Array.from({ length: totalSlides }).map((_, idx) => (
                 <button
                   key={idx}
@@ -476,23 +480,23 @@ const HomePage: React.FC = () => {
           </div>
           <div className="columns-2 md:columns-4 gap-4 space-y-4">
             <div className="break-inside-avoid rounded-xl overflow-hidden hover:opacity-90 transition-opacity cursor-pointer">
-              <img src={DEMO_IMAGES.gallery1} alt="Gallery" className="w-full h-auto rounded-xl" />
+              <img src={DEMO_IMAGES.gallery1} alt="Gallery" crossOrigin="anonymous" className="w-full h-auto rounded-xl" />
             </div>
             <div className="break-inside-avoid rounded-xl overflow-hidden hover:opacity-90 transition-opacity cursor-pointer">
-              <img src={DEMO_IMAGES.gallery2} alt="Gallery" className="w-full h-auto rounded-xl" />
+              <img src={DEMO_IMAGES.gallery2} alt="Gallery" crossOrigin="anonymous" className="w-full h-auto rounded-xl" />
             </div>
             <div className="break-inside-avoid rounded-xl overflow-hidden hover:opacity-90 transition-opacity cursor-pointer">
-              <img src={DEMO_IMAGES.gallery3} alt="Gallery" className="w-full h-auto rounded-xl" />
+              <img src={DEMO_IMAGES.gallery3} alt="Gallery" crossOrigin="anonymous" className="w-full h-auto rounded-xl" />
             </div>
             <div className="break-inside-avoid rounded-xl overflow-hidden hover:opacity-90 transition-opacity cursor-pointer">
-              <img src={DEMO_IMAGES.gallery4} alt="Gallery" className="w-full h-auto rounded-xl" />
+              <img src={DEMO_IMAGES.gallery4} alt="Gallery" crossOrigin="anonymous" className="w-full h-auto rounded-xl" />
             </div>
             <div className="break-inside-avoid rounded-xl overflow-hidden bg-primary-600 text-white p-8 flex flex-col justify-center items-center text-center h-48">
               <CameraIcon className="h-12 w-12 mb-4 opacity-80" />
               <h3 className="font-bold text-xl">Share Your Story</h3>
             </div>
             <div className="break-inside-avoid rounded-xl overflow-hidden hover:opacity-90 transition-opacity cursor-pointer">
-              <img src={DEMO_IMAGES.bali} alt="Gallery" className="w-full h-auto rounded-xl" />
+              <img src={DEMO_IMAGES.bali} alt="Gallery" crossOrigin="anonymous" className="w-full h-auto rounded-xl" />
             </div>
           </div>
         </div>
@@ -505,6 +509,7 @@ const HomePage: React.FC = () => {
           <img
             src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=2000"
             alt="Stories Background"
+            crossOrigin="anonymous"
             className="w-full h-full object-cover opacity-60"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-gray-900/30"></div>
@@ -518,13 +523,14 @@ const HomePage: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar md:grid md:grid-cols-3 gap-4 md:gap-8 pb-4 md:pb-0 mb-8 md:mb-12">
             {visibleStories.map((blog) => (
-              <Link to={`/blogs/${blog.slug}`} key={blog.id} className="group bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+              <Link to={`/blogs/${blog.slug}`} key={blog.id} className="flex-none w-[85vw] sm:w-[60vw] md:w-auto snap-center group bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform md:hover:-translate-y-2">
                 <div className="h-56 overflow-hidden relative">
                   <img
                     src={getImageUrl(blog.image)}
                     alt={blog.title}
+                    crossOrigin="anonymous"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-primary-700 shadow-sm">
@@ -556,7 +562,7 @@ const HomePage: React.FC = () => {
 
           {/* Dots Navigation for Stories */}
           {totalStorySlides > 1 && (
-            <div className="flex justify-center gap-2 mb-12">
+            <div className="hidden md:flex justify-center gap-2 mb-12">
               {Array.from({ length: totalStorySlides }).map((_, idx) => (
                 <button
                   key={idx}
@@ -599,7 +605,7 @@ const StatItem = ({ number, label }: { number: string; label: string }) => (
 
 const DestinationCard = ({ image, title, subtitle, className = "" }: { image: string; title: string; subtitle: string; className?: string }) => (
   <div className={`relative group rounded-3xl overflow-hidden cursor-pointer ${className}`}>
-    <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+    <img src={image} alt={title} crossOrigin="anonymous" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90"></div>
     <div className="absolute bottom-0 left-0 p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
       <h3 className="text-2xl font-bold text-white mb-1">{title}</h3>
@@ -609,10 +615,10 @@ const DestinationCard = ({ image, title, subtitle, className = "" }: { image: st
 );
 
 const ImpactCard = ({ image, title, description, slug, highlight = false }: { image: string; title: string; description: string; slug: string; highlight?: boolean }) => (
-  <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 group border border-gray-100 cursor-pointer">
+  <div className="bg-white rounded-lg h-full flex flex-col overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform md:hover:-translate-y-1 group border border-gray-100 cursor-pointer">
     <div className="h-56 overflow-hidden">
       <Link to={`/impact/${slug}`}>
-        <img src={image} alt={title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+        <img src={image} alt={title} crossOrigin="anonymous" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
       </Link>
     </div>
     <div className="p-6 h-full flex flex-col">
