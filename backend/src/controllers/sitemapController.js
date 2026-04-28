@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 exports.generateSitemap = async (req, res) => {
   try {
-    const baseUrl = 'https://traveltemplate.com'; // Replace with actual domain
+    const baseUrl = 'https://travel-dash-updateded.vercel.app/'; // Replace with actual domain
 
     // Fetch dynamic content
     const packages = await prisma.package.findMany({ where: { active: true } });
